@@ -13,5 +13,8 @@ import java.util.Optional;
 public interface GuRepository extends JpaRepository<GuEntity, Long> {
    Optional<GuEntity> findByGuName(String areaName);
 
+   GuEntity getByGuName(String guName);
    List<DistrictEntity> findAllByGuId(Long guId);
+
+
 }

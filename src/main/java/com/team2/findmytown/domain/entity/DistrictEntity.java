@@ -24,11 +24,14 @@ public class DistrictEntity {
 
 
 
-
     //인구 분포
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="population_id")
     private PopulationEntity populationEntity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="facility_id")
+    private FacilityEntity facilityEntity;
 
 
     //구:동 = 1대 다 관계
