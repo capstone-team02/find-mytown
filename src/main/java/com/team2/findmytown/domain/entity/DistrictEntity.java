@@ -26,7 +26,7 @@ public class DistrictEntity {
 
 
     //인구 분포
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="population_id")
     private PopulationEntity populationEntity;
 

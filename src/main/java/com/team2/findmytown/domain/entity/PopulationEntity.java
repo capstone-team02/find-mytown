@@ -52,6 +52,9 @@ public class PopulationEntity { //인구
     private long forign;
 
 
+
+
+
     @Builder
     public PopulationEntity(long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long forign) {
         this.children = children;
