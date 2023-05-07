@@ -47,11 +47,14 @@ public class UserServiceImple implements UserService{
         return null;
     }
 
-
-
-
-
-
-
+    //이메일 중복 검사
+    @Override
+    public Boolean checkExist(String email) {
+        if(userRepository.existsByEmail(email)) {
+            log.warn("Email already exists {}", email);
+            return false;//이메일 중복
+        }
+        else return true; // 이메일 없음
+    }
 }
 

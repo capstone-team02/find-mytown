@@ -29,6 +29,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
+    @GetMapping("/check") //중복체크
+    public ResponseEntity<?>check(@RequestBody String email){
+        Boolean check = userService.checkExist(email);
+        return ResponseEntity.ok(check);
+    }
+
+
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO){
         try{
