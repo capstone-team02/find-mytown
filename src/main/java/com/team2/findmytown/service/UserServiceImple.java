@@ -49,9 +49,18 @@ public class UserServiceImple implements UserService{
 
     //이메일 중복 검사
     @Override
-    public Boolean checkExist(String email) {
+    public Boolean checkEmail(String email) {
         if(userRepository.existsByEmail(email)) {
             log.warn("Email already exists {}", email);
+            return false;//이메일 중복
+        }
+        else return true; // 이메일 없음
+    }
+
+    @Override
+    public Boolean checkNickName(String nickName) {
+        if(userRepository.existsByNickname(nickName)) {
+            log.warn("nickname already exists {}", nickName);
             return false;//이메일 중복
         }
         else return true; // 이메일 없음

@@ -10,7 +10,9 @@ public interface UserService {
 
     public UserEntity getByCredentials(final String email, final String password, final PasswordEncoder encoder);
 
-    public Boolean checkExist(final String email);
+    public Boolean checkEmail(final String email);
+
+    public Boolean checkNickName(final String nickName);
 
 
 

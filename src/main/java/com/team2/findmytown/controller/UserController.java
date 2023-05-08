@@ -14,8 +14,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
-
 @Slf4j
 @RestController
 @RequestMapping("/mytown/v1/auth")
@@ -29,12 +27,17 @@ public class UserController {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    @GetMapping("/check") //중복체크
-    public ResponseEntity<?>check(@RequestBody String email){
-        Boolean check = userService.checkExist(email);
+    @GetMapping("/checkEmail") //중복체크
+    public ResponseEntity<?>checkEmail(@RequestBody String email){
+        Boolean check = userService.checkEmail(email);
         return ResponseEntity.ok(check);
     }
 
+    @GetMapping("/checkNickname")
+    public ResponseEntity<?>checkNickname(@RequestBody String nickname){
+        Boolean check = userService.checkNickName(nickname);
+        return ResponseEntity.ok(check);
+    }
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO){
