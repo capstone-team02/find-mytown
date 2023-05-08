@@ -43,10 +43,13 @@ public class FacilityEntity {
     @Column(name = "childcare")
     private int childcare; // 보육시설
 
-    //음식점
-    @OneToOne
-    @JoinColumn(name="restaurant_Id")
-    private RestaurantEntity restaurantEntity;
+    @Column(name="restaurant")
+    private int restaurant;
+
+    @Column(name = "cafe")
+    private int cafe;
+
+
 
 
 

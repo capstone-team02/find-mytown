@@ -127,6 +127,35 @@ public class DataController {
             e.printStackTrace();
         }
 
+        //식당 데이터 적재
+        File restList = new File("src/main/resources/식당 리스트.csv");
+        try( BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(restList)))){
+
+            String line = "";
+            boolean skipFirstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (skipFirstLine) {
+                    skipFirstLine = false;
+                    continue;
+                }
+                String[] data3 = line.split(",");
+
+                GuEntity guEntity = dataService.findGu(data3[0]);
+
+                DistrictEntity districtEntity = dataService.findDistractEntity(guEntity,data3[1]);
+
+                FacilityEntity facilityEntity = districtEntity.getFacilityEntity();
+                facilityEntity.setRestaurant(Integer.parseInt(data3[2]));
+                facilityEntity.setCafe(Integer.parseInt(data3[3]));
+
+                dataService.updateFacilityDistractEntity(districtEntity,facilityEntity);
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
 
 
