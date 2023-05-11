@@ -28,14 +28,14 @@ public class UserController {
 
 
     @GetMapping("/checkEmail") //중복체크
-    public ResponseEntity<?>checkEmail(@RequestBody String email){
-        Boolean check = userService.checkEmail(email);
+    public ResponseEntity<?>checkEmail(@RequestBody UserDTO userDTO){
+        Boolean check = userService.checkEmail(userDTO.getEmail());
         return ResponseEntity.ok(check);
     }
 
     @GetMapping("/checkNickname")
-    public ResponseEntity<?>checkNickname(@RequestBody String nickname){
-        Boolean check = userService.checkNickName(nickname);
+    public ResponseEntity<?>checkNickname(@RequestBody UserDTO userDTO){
+        Boolean check = userService.checkNickName(userDTO.getNickname());
         return ResponseEntity.ok(check);
     }
 
@@ -56,6 +56,7 @@ public class UserController {
                     .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .role(userRole)
+                    .nickname(userDTO.getNickname())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .build();
 
@@ -67,6 +68,7 @@ public class UserController {
                     .email(registerUser.getEmail())
                     .id(registerUser.getId())
                     .role(userRole)
+                    .nickname(registerUser.getNickname())
                     .username(registerUser.getUsername())
                     .build();
             //return ResponseEntity.ok().body(responseUserDTO);
