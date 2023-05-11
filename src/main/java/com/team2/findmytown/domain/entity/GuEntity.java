@@ -23,6 +23,9 @@ public class GuEntity {
     @Column(name = "gu_name",nullable = false)
     private String guName;
 
+
+
+    @Column(name="")
     // 구: 동 = 1:다 관계
     @JsonManagedReference
     @OneToMany(mappedBy = "guEntity",fetch = FetchType.EAGER)

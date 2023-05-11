@@ -61,9 +61,9 @@ public class UserServiceImple implements UserService{
     public Boolean checkNickName(String nickName) {
         if(userRepository.existsByNickname(nickName)) {
             log.warn("nickname already exists {}", nickName);
-            return false;//이메일 중복
+            return false;
         }
-        else return true; // 이메일 없음
+        else return true;
     }
 }
 
