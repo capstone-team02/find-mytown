@@ -28,11 +28,6 @@ public class FacilityEntity {
     @Column(name = "education")
     private int education; //교육기관
 
-    @Column(name="hospital")
-    private int hospital; //병원
-
-    @Column(name= "pharmacy")
-    private int pharmacy; //약국
 
     @Column(name="parking")
     private int parking; //주차장

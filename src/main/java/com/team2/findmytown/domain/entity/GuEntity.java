@@ -33,6 +33,12 @@ public class GuEntity {
     private List<DistrictEntity> districtEntities = new ArrayList<>();
 
 
+    //의료시설은 구 단위로 저장
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="medical_id")
+    private MedicalEntity medicalEntity;
+
+
     @Builder
     public GuEntity(List<DistrictEntity>districtEntities, String guName) {
         this.guName = guName;
