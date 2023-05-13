@@ -2,6 +2,7 @@ package com.team2.findmytown.service;
 
 
 import com.team2.findmytown.domain.entity.UserEntity;
+import com.team2.findmytown.dto.request.UserDTO;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public interface UserService {
@@ -14,7 +15,7 @@ public interface UserService {
 
     public Boolean checkNickName(final String nickName);
 
-
+    public UserEntity updateUser(final UserDTO userDto, final PasswordEncoder passwordEncoder);
 
 
 

@@ -3,11 +3,14 @@ package com.team2.findmytown.service;
 
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.transaction.Transactional;
 
 
 @Slf4j
@@ -65,5 +68,34 @@ public class UserServiceImple implements UserService{
         }
         else return true;
     }
+
+    public UserEntity updateUser(UserDTO userDto, PasswordEncoder passwordEncoder) {
+        try {
+            UserEntity user = userRepository.findByEmail(userDto.getEmail());
+                if (userDto.getNickname() != null)
+                    user.setNickname(userDto.getNickname());
+                if(userDto.getPassword() != null)
+                    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+            return userRepository.save(user);
+        } catch (Exception e) {
+            log.error("error: ", e);
+        }
+        return null;
+    }
+
+    @Transactional
+    public void deleteUser(String userEmail) {
+        if (userEmail == null) {
+            throw new RuntimeException("not exist user info");
+        } else {
+            try {
+                userRepository.deleteByEmail(userEmail);
+            } catch (Exception e) {
+                log.error("error: ", e);
+            }
+        }
+    }
 }
+
 
