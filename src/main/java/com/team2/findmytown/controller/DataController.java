@@ -1,10 +1,7 @@
 package com.team2.findmytown.controller;
 
 
-import com.team2.findmytown.domain.entity.DistrictEntity;
-import com.team2.findmytown.domain.entity.FacilityEntity;
-import com.team2.findmytown.domain.entity.GuEntity;
-import com.team2.findmytown.domain.entity.PopulationEntity;
+import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.service.DataServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +33,43 @@ public class DataController {
 
     @GetMapping("/add-table")
     public ResponseEntity<?> addDistrict() throws IOException {
+
+        //구 데이터 적재 + 의료시설 데이터
+        File gu = new File("src/main/resources/병원 약국 리스트.csv");
+        try( BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(gu)))){
+
+            String line = "";
+            boolean skipFirstLine = true;
+
+            while ((line = br.readLine()) != null) {
+                if (skipFirstLine) {
+                    skipFirstLine = false;
+                    continue;
+                }
+                String[] data = line.split(",");
+
+                MedicalEntity medicalEntity = MedicalEntity.builder()
+                        .hospital(Integer.parseInt(data[1]))
+                        .pharmacy(Integer.parseInt(data[2]))
+                        .build();
+
+                MedicalEntity savedMedical = dataService.createMedical(medicalEntity);
+
+                GuEntity newareaEntity = GuEntity.builder()
+                        .guName(data[0].toString())
+                        .medicalEntity(savedMedical)
+                        .build();
+
+                GuEntity guEntity = dataService.findOrCreateNew(newareaEntity);
+
+
+            }
+
+        }catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
         //인구데이터 적재
         File csv = new File("src/main/resources/동별 연령대 리스트.csv");
        try( BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(csv)))){
