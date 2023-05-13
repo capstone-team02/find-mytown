@@ -27,13 +27,13 @@ public class UserController {
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
-    @GetMapping("/checkEmail") //중복체크
+    @PostMapping("/checkEmail") //중복체크
     public ResponseEntity<?>checkEmail(@RequestBody String email){
         Boolean check = userService.checkEmail(email);
         return ResponseEntity.ok(check);
     }
 
-    @GetMapping("/checkNickname")
+    @PostMapping("/checkNickname")
     public ResponseEntity<?>checkNickname(@RequestBody String nickname){
         Boolean check = userService.checkNickName(nickname);
         return ResponseEntity.ok(check);
