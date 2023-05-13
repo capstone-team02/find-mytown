@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/nado/v1/auth")
+@RequestMapping("/mytown/v1/auth")
 public class UserController {
     @Autowired
     private UserServiceImple userService;
@@ -113,15 +113,37 @@ public class UserController {
     public ResponseEntity<?> logout(@RequestBody UserDTO userDTO) {
         String token = userDTO.getToken();
 
-        //토큰 유효성 검사 후 setnull 처리
+        //토큰 유효성 검사 후 setNull 처리
         if (tokenProvider.validateAndGetUserId(token) == null) {
             ResponseDTO responseDto = ResponseDTO.builder()
                     .error("Invalid token")
                     .build();
             return ResponseEntity.badRequest().body(responseDto);
         } else {
-            userDTO.setToken(null);
+            //userDTO.setToken(null);
             return ResponseEntity.ok().body(userDTO);
+        }
+    }
+
+    @PutMapping("/userUpdate")
+    public ResponseEntity userUpdate(@RequestBody UserDTO userDTO){
+        ResponseDTO responseDTO;
+
+
+        //토큰 유효성 검사 후 처리
+        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
+            responseDTO = ResponseDTO.builder()
+                    .error("Invalid token")
+                    .build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        } else if (userDTO.getPassword() == null && userDTO.getNickname() == null) {
+            responseDTO = ResponseDTO.builder()
+                    .error("fill the info want to change")
+                    .build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        } else{
+            UserEntity user = userService.updateUser(userDTO, passwordEncoder);
+            return ResponseEntity.ok().body(user);
         }
     }
 

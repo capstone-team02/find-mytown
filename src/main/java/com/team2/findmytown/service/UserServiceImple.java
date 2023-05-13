@@ -3,6 +3,7 @@ package com.team2.findmytown.service;
 
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -65,5 +66,19 @@ public class UserServiceImple implements UserService{
         }
         else return true; // 이메일 없음
     }
-}
 
+    public UserEntity updateUser(UserDTO userDto, PasswordEncoder passwordEncoder) {
+        try {
+            UserEntity user = userRepository.findByEmail(userDto.getEmail());
+                if (userDto.getNickname() != null)
+                    user.setNickname(userDto.getNickname());
+                if(userDto.getPassword() != null)
+                    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+
+            return userRepository.save(user);
+        } catch (Exception e) {
+            log.error("error: ", e);
+        }
+        return null;
+    }
+}
