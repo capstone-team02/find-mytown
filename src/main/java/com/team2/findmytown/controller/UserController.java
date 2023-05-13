@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
-@RequestMapping("/mytown/v1/auth")
+@RequestMapping("/nado/v1/auth")
 public class UserController {
     @Autowired
     private UserServiceImple userService;
@@ -109,12 +109,20 @@ public class UserController {
         }
     }
 
+    @PostMapping("/logout")
+    public ResponseEntity<?> logout(@RequestBody UserDTO userDTO) {
+        String token = userDTO.getToken();
 
-    
-
-
-
-
-
+        //토큰 유효성 검사 후 setnull 처리
+        if (tokenProvider.validateAndGetUserId(token) == null) {
+            ResponseDTO responseDto = ResponseDTO.builder()
+                    .error("Invalid token")
+                    .build();
+            return ResponseEntity.badRequest().body(responseDto);
+        } else {
+            userDTO.setToken(null);
+            return ResponseEntity.ok().body(userDTO);
+        }
+    }
 
 }
