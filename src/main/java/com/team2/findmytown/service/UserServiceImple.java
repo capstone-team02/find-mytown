@@ -10,6 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+
 
 @Slf4j
 @Service
@@ -81,4 +83,19 @@ public class UserServiceImple implements UserService{
         }
         return null;
     }
+
+    @Transactional
+    public void deleteUser(String userEmail) {
+        if (userEmail == null) {
+            throw new RuntimeException("not exist user info");
+        } else {
+            try {
+                userRepository.deleteByEmail(userEmail);
+            } catch (Exception e) {
+                log.error("error: ", e);
+            }
+        }
+    }
 }
+
+

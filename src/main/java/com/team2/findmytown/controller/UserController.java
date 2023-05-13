@@ -147,4 +147,20 @@ public class UserController {
         }
     }
 
+    @PutMapping("/userDelete")
+    public ResponseEntity userDelete(@RequestBody UserDTO userDTO) {
+        ResponseDTO responseDTO;
+
+        //토큰 유효성 검사 후 처리
+        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
+            responseDTO = ResponseDTO.builder()
+                    .error("Invalid token")
+                    .build();
+            return ResponseEntity.badRequest().body(responseDTO);
+        }else{
+            userService.deleteUser(userDTO.getEmail());
+            return ResponseEntity.ok().body(userDTO);
+        }
+    }
+
 }
