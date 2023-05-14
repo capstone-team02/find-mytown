@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface DistrictRepository extends JpaRepository<DistrictEntity, String> {
+public interface DistrictRepository extends JpaRepository<DistrictEntity, Long> {
    // @Query("select l from DistrictEntity l where l.districtName=?1")
     DistrictEntity findByDistrictName(String districtName);
 
