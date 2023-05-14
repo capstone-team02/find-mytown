@@ -56,6 +56,9 @@ public class PopulationEntity { //인구
     private long forign;
 
 
+    @OneToOne(mappedBy = "populationEntity")
+    private DistrictEntity districtEntity;
+
 
     @Builder
     public PopulationEntity(long density,long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long forign) {

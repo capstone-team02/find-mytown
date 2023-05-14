@@ -3,6 +3,7 @@ package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.service.DataServiceImpl;
+import com.team2.findmytown.service.ScoreServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -25,9 +26,12 @@ import java.util.Optional;
 public class DataController {
 
     private final DataServiceImpl dataService;
+    private final ScoreServiceImpl scoreService;
     @Autowired
-    public DataController(DataServiceImpl dataService){
+    public DataController(DataServiceImpl dataService,ScoreServiceImpl scoreService){
+
         this.dataService = dataService;
+        this.scoreService=scoreService;
     }
 
 
@@ -104,6 +108,7 @@ public class DataController {
                     .elder(Long.parseLong(data[8]))
                     .forign(Long.parseLong(data[9]))
                     .density(Long.parseLong(data[10]))
+                    .districtEntity(null)
                     .build();
 
             DistrictEntity districtEntity = DistrictEntity.builder()
@@ -112,6 +117,8 @@ public class DataController {
                     .facilityEntity(null)
                     .populationEntity(populationEntity)
                     .build();
+
+
 
 
             List<DistrictEntity> districtEntities = dataService.createDistrict(districtEntity);
@@ -194,6 +201,7 @@ public class DataController {
 
 
 
+        scoreService.calculateAndSaveScores();
 
 
         return ResponseEntity.ok().build();
