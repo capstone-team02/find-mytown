@@ -17,7 +17,7 @@ public interface UserService {
 
     public UserEntity updateUser(final UserDTO userDto, final PasswordEncoder passwordEncoder);
 
-
+    public UserDTO isLogin();
 
 
 }

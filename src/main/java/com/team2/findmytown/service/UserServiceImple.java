@@ -1,16 +1,22 @@
 package com.team2.findmytown.service;
 
 
+import com.team2.findmytown.config.SecurityUtil;
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.util.Optional;
 
 
 @Slf4j
@@ -94,6 +100,21 @@ public class UserServiceImple implements UserService{
             } catch (Exception e) {
                 log.error("error: ", e);
             }
+        }
+    }
+
+    @Transactional
+    public UserDTO isLogin() {
+        Optional<UserEntity> user = userRepository.findById(SecurityUtil.getCurrentMemberId());
+        if(user.isEmpty()){
+            return null;
+        }
+        else {
+            return UserDTO.builder()
+                    .email(user.get().getEmail())
+                    .nickname(user.get().getNickname())
+                    .role(user.get().getRole())
+                    .build();
         }
     }
 }
