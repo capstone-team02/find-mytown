@@ -6,19 +6,25 @@ import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.mail.javamail.JavaMailSender;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.transaction.Transactional;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 
 @Slf4j
@@ -171,6 +177,53 @@ public class UserServiceImple implements UserService{
     }
 
      */
+    public String randomNickname()throws IOException {
+        String animal_url = "https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%ED%8F%AC%EC%9C%A0%EB%A5%98";
+        String adjective_url = "https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%EA%B4%80%ED%98%95%EC%82%AC%ED%98%95(%ED%98%95%EC%9A%A9%EC%82%AC)";
+        Document animal = Jsoup.connect(animal_url).get();
+        Document adjective = Jsoup.connect(adjective_url).get();
+
+        List<List<String>> animalName = new ArrayList<>();
+        List<String> animalNameList = new ArrayList<>();
+        List<List<String>> adjectiveName = new ArrayList<>();
+        List<String> adjectiveNameList = new ArrayList<>();
+
+        Elements contents = animal.getElementsByClass("mw-category-group");
+        Elements contents_adjective = adjective.getElementsByClass("mw-category-group");
+
+        for(Element content : contents){
+            animalName.add(content.select("ul>li>a").eachText());
+        }
+
+
+        for(Element content : contents_adjective){
+            //System.out.println("형용사: " + content.select("a").attr("title"));
+            adjectiveName.add(content.select("ul>li>a").eachText());
+        }
+
+        for(int i =0 ; i<animalName.size(); i++){
+            for(int j =0 ; j < animalName.get(i).size(); j++){
+                animalNameList.add(animalName.get(i).get(j));
+
+            }
+        }
+        for(int i =0 ; i<adjectiveName.size(); i++){
+            for(int j =0 ; j < adjectiveName.get(i).size(); j++){
+                adjectiveNameList.add(adjectiveName.get(i).get(j));
+            }
+        }
+        Random random1 = new Random();
+        random1.setSeed(System.currentTimeMillis());
+        Random random2 = new Random();
+        random2.setSeed(System.currentTimeMillis());
+
+        random2.nextInt(adjectiveNameList.size());
+
+        String nickname = adjectiveNameList.get(random1.nextInt(adjectiveNameList.size())) + " " + animalNameList.get(random2.nextInt(animalNameList.size()));
+
+        return nickname;
+    }
+
 
     @Transactional
     public UserDTO isLogin() {

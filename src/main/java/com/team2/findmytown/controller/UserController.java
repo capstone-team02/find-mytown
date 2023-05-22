@@ -69,6 +69,7 @@ public class UserController {
                     .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .role(userRole)
+                    .nickname(userService.randomNickname())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .build();
 

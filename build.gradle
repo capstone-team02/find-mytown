@@ -30,6 +30,7 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	implementation 'org.springframework.boot:spring-boot-starter-mail'
 
+	implementation 'org.jsoup:jsoup:1.14.2'
 
 
 	implementation 'org.springframework.boot:spring-boot-devtools'
