@@ -12,29 +12,30 @@ import javax.persistence.*;
 public class AdvantageEntity {
 
     @Id
-    @Column(name = "advantage_id")
+    @OneToOne(mappedBy = "advantage")
+    @JoinColumn(name = "advantageId")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long advantageId;
 
-    @Column(name = "subway", nullable = true)
+    @Column(name = "subway")
     private boolean subway;
 
-    @Column(name = "bus", nullable = true)
+    @Column(name = "bus")
     private boolean bus;
 
-    @Column(name = "streetlight", nullable = true)
+    @Column(name = "streetlight")
     private boolean streetlight;
 
-    @Column(name = "security", nullable = true)
+    @Column(name = "security")
     private boolean security;
 
-    @Column(name = "riverparkview", nullable = true)
+    @Column(name = "riverparkview")
     private boolean riverparkview;
 
-    @Column(name = "clean", nullable = true)
+    @Column(name = "clean")
     private boolean clean;
 
-    @Column(name = "pet", nullable = true)
+    @Column(name = "pet")
     private boolean pet;
 
     @Builder

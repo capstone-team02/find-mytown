@@ -4,7 +4,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Builder
+//@Builder
 @Data
 @Entity
 @NoArgsConstructor
@@ -16,47 +16,51 @@ public class SurveyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long surveyId;
 
-    @Column(name = "age", nullable = false)
+    //@OneToOne(targetEntity = UserEntity.class, mappedBy = "surveyEntity")
+    //@JoinColumn(name = "id")
+    private long userId;
+
     private int age;
 
-    //일대일 (1:1) 단방향
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "gu_id", nullable = false)
-    private long guId;
+    //@ManyToOne(targetEntity = GuEntity.class)
+    //@JoinColumn(name = "gu_id")
+    private Long guId;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "mood_id", nullable = false)
-    private int mood;
+    @OneToOne(targetEntity = MoodEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "mood_id")
+    private long mood;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "advantage_id", nullable = false)
-    private int advantage;
+    @OneToOne(targetEntity = AdvantageEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "advantage_id")
+    private long advantage;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "disadvantage_id", nullable = false)
-    private int disadvantage;
+    @OneToOne(targetEntity = DisadvantageEntity.class, cascade = CascadeType.ALL)
+    @JoinColumn(name = "disadvantage_id")
+    private long disadvantage;
 
-    @Column(name = "recommend_gender", nullable = false)
+    @Column(name = "recommend_gender")
     private boolean recommendGender;
 
-    @Column(name = "recommend_age", nullable = false)
+    @Column(name = "recommend_age")
     private String recommendAge;
 
-    @Column(name = "recommend_housing", nullable = false)
+    @Column(name = "recommend_housing")
     private String recommendHousing;
 
-    @Column(name = "star", nullable = false)
     private int star;
 
-    @Column(name = "review", length = 50, nullable = true)
+    @Column(length = 50)
     private String review;
 
 
+    /*
     @Builder
-    public SurveyEntity(long surveyId, int age, long guId, int mood, int advantage, int disadvantage,
+    public SurveyEntity(long surveyId, long userId, int age, long guId, long mood, long advantage, long disadvantage,
                         boolean recommendGender, String recommendAge, String recommendHousing, int star, String review){
         this.surveyId = surveyId;
+        this.userId = userId;
         this.age = age;
+        this.guId = guId;
         this.mood = mood;
         this.advantage = advantage;
         this.disadvantage = disadvantage;
@@ -66,36 +70,6 @@ public class SurveyEntity {
         this.star = star;
         this.review = review;
     }
+
+     */
 }
-
-
-/*
-@Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")},name = "user")
-public class UserEntity {
-    @Id
-    @GeneratedValue(generator = "system-uuid") //자동으로 할당
-    @GenericGenerator(name="system-uuid",strategy = "uuid")
-    private String id;
-
-    @Column(nullable = false)
-    private String username;
-
-    private String password;
-    private String nickname;
-
-    @Column(nullable = false)
-    private String email; // 유저의 email, 아이디와 같은 기능
-
-
-
-    @Enumerated(EnumType.STRING)
-    private Role role; //성별 (권한으로 설정)
-
-    @Builder
-    public UserEntity(String username, String email){
-        this.email = email;
-        this.username = username;
-    }
-
-
-*/

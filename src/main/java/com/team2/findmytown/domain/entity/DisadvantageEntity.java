@@ -13,31 +13,33 @@ import javax.persistence.*;
 public class DisadvantageEntity {
 
     @Id
-    @Column(name = "disadvantage_id")
+    @OneToOne(mappedBy = "disadvantage")
+    @JoinColumn(name = "disadvantage_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long disadvantageId;
 
-    @Column(name = "hardtraffic", nullable = true)
+    @Column(name = "hardtraffic")
     private boolean hardtraffic;
 
-    @Column(name = "construction", nullable = true)
+    @Column(name = "construction")
     private boolean construction;
 
-    @Column(name = "uphill", nullable = true)
+    @Column(name = "uphill")
     private boolean uphill;
 
-    @Column(name = "badsecurity", nullable = true)
+    @Column(name = "badsecurity")
     private boolean badsecurity;
 
-    @Column(name = "lackrestaurant", nullable = true)
+    @Column(name = "lackrestaurant")
     private boolean lackrestaurant;
 
-    @Column(name = "messy", nullable = true)
+    @Column(name = "messy")
     private boolean messy;
 
-    @Column(name = "floatingpopulation", nullable = true)
+    @Column(name = "floatingpopulation")
     private boolean floatingpeople;
 
+    /*
     @Builder
     public DisadvantageEntity(long disadvantageId, boolean hardtraffic, boolean construction, boolean uphill,
                               boolean badsecurity, boolean lackrestaurant, boolean messy, boolean floatingpeople){
@@ -50,7 +52,7 @@ public class DisadvantageEntity {
         this.messy = messy;
         this.floatingpeople = floatingpeople;
     }
-
+     */
 }
 
 

@@ -12,29 +12,30 @@ import javax.persistence.*;
 public class MoodEntity {
 
     @Id
-    @Column(name = "mood_id")
+    @OneToOne(mappedBy = "mood")
+    @JoinColumn(name = "mood_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long moodId;
 
-    @Column(name = "noisy", nullable = true)
+    @Column(name = "noisy")
     private boolean noisy;
 
-    @Column(name = "quiet", nullable = true)
+    @Column(name = "quiet")
     private boolean quiet;
 
-    @Column(name = "energy", nullable = true)
+    @Column(name = "energy")
     private boolean energy;
 
-    @Column(name = "silence", nullable = true)
+    @Column(name = "silence")
     private boolean silence;
 
-    @Column(name = "newlybuilt", nullable = true)
+    @Column(name = "newlybuilt")
     private boolean newlybuilt;
 
-    @Column(name = "learn", nullable = true)
+    @Column(name = "learn")
     private boolean learn;
 
-    @Column(name = "relaxed", nullable = true)
+    @Column(name = "relaxed")
     private boolean relaxed;
 
     @Builder
