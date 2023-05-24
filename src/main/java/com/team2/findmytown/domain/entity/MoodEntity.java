@@ -7,6 +7,7 @@ import javax.persistence.*;
 @Builder
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="surv_mood")
 public class MoodEntity {
@@ -37,6 +38,12 @@ public class MoodEntity {
     @Column(name = "relaxed")
     private boolean relaxed;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "mood_id")
+    private SurveyEntity surveyId;
+
+
+    /*
     @Builder
     public MoodEntity(long moodId, boolean noisy, boolean quiet, boolean energy,
                       boolean silence, boolean newlybuilt, boolean learn, boolean relaxed){
@@ -49,4 +56,5 @@ public class MoodEntity {
         this.learn = learn;
         this.relaxed = relaxed;
     }
+     */
 }

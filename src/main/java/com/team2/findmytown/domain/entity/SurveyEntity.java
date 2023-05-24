@@ -5,9 +5,10 @@ import lombok.*;
 
 import javax.persistence.*;
 
-//@Builder
+@Builder
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="survey")
 public class SurveyEntity {
@@ -19,8 +20,6 @@ public class SurveyEntity {
 
     private long userId;
 
-
-
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="district_id")
@@ -31,15 +30,13 @@ public class SurveyEntity {
     @JoinColumn(name="mood_id")
     private MoodEntity moodEntity;
 
-
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advantage_id")
     private AdvantageEntity advantageEntity;
 
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "disadvantage_id")
-    private DisadvantageEntity disadvantage;
+    private DisadvantageEntity disadvantageEntity;
 
     @Column(name = "recommend_gender")
     private boolean recommendGender;
@@ -55,25 +52,21 @@ public class SurveyEntity {
     @Column(length = 50)
     private String review;
 
-
-
-    /*
+/*
     @Builder
-    public SurveyEntity(long surveyId, long userId, int age, long guId, long mood, long advantage, long disadvantage,
-                        boolean recommendGender, String recommendAge, String recommendHousing, int star, String review){
+    public SurveyEntity(long surveyId, long userId, DistrictEntity district, MoodEntity mood, AdvantageEntity advantage,
+                        DisadvantageEntity disadvantage, boolean recommendGender, String recommendAge, String recommendHousing, int star, String review){
         this.surveyId = surveyId;
         this.userId = userId;
-        this.age = age;
-        this.guId = guId;
-        this.mood = mood;
-        this.advantage = advantage;
-        this.disadvantage = disadvantage;
+        this.districtEntity = district;
+        this.moodEntity = mood;
+        this.advantageEntity = advantage;
+        this.disadvantageEntity = disadvantage;
         this.recommendGender = recommendGender;
         this.recommendAge = recommendAge;
         this.recommendHousing = recommendHousing;
         this.star = star;
         this.review = review;
     }
-
-     */
+ */
 }

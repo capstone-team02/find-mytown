@@ -5,16 +5,14 @@ import lombok.*;
 import javax.persistence.*;
 
 @Builder
-@AllArgsConstructor
 @Data
 @Entity
+@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="surv_disadvantage")
 public class DisadvantageEntity {
 
-    @Id
-    @OneToOne(mappedBy = "disadvantage")
-    @JoinColumn(name = "disadvantage_id")
+    @Id @Column(name = "disadvantage_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long disadvantageId;
 
@@ -39,10 +37,14 @@ public class DisadvantageEntity {
     @Column(name = "floatingpopulation")
     private boolean floatingpeople;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "disadvantage_id")
+    private SurveyEntity surveyId;
+
     /*
     @Builder
     public DisadvantageEntity(long disadvantageId, boolean hardtraffic, boolean construction, boolean uphill,
-                              boolean badsecurity, boolean lackrestaurant, boolean messy, boolean floatingpeople){
+                              boolean badsecurity, boolean lackrestaurant, boolean messy, boolean floatingpeople, SurveyEntity survey){
         this.disadvantageId = disadvantageId;
         this.hardtraffic = hardtraffic;
         this.construction = construction;
@@ -53,8 +55,8 @@ public class DisadvantageEntity {
         this.floatingpeople = floatingpeople;
     }
      */
-}
 
+}
 
 
 
