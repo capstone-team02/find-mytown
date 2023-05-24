@@ -1,5 +1,6 @@
 package com.team2.findmytown.domain.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -16,27 +17,29 @@ public class SurveyEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long surveyId;
 
-    //@OneToOne(targetEntity = UserEntity.class, mappedBy = "surveyEntity")
-    //@JoinColumn(name = "id")
     private long userId;
 
-    private int age;
 
-    //@ManyToOne(targetEntity = GuEntity.class)
-    //@JoinColumn(name = "gu_id")
-    private Long guId;
 
-    @OneToOne(targetEntity = MoodEntity.class, cascade = CascadeType.ALL)
-    @JoinColumn(name = "mood_id")
-    private long mood;
+    @JsonBackReference
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="district_id")
+    @ToString.Exclude
+    private DistrictEntity districtEntity;
 
-    @OneToOne(targetEntity = AdvantageEntity.class, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="mood_id")
+    private MoodEntity moodEntity;
+
+
+
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "advantage_id")
-    private long advantage;
+    private AdvantageEntity advantageEntity;
 
-    @OneToOne(targetEntity = DisadvantageEntity.class, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "disadvantage_id")
-    private long disadvantage;
+    private DisadvantageEntity disadvantage;
 
     @Column(name = "recommend_gender")
     private boolean recommendGender;
@@ -51,6 +54,7 @@ public class SurveyEntity {
 
     @Column(length = 50)
     private String review;
+
 
 
     /*

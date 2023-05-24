@@ -12,7 +12,6 @@ import javax.persistence.*;
 public class MoodEntity {
 
     @Id
-    @OneToOne(mappedBy = "mood")
     @JoinColumn(name = "mood_id")
     @GeneratedValue(strategy = GenerationType.AUTO)
     private long moodId;
