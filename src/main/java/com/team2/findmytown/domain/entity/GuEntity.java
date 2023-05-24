@@ -29,6 +29,11 @@ public class GuEntity {
     @ToString.Exclude
     private List<DistrictEntity> districtEntities = new ArrayList<>();
 
+    /*
+    @OneToMany(fetch = FetchType.LAZY)
+    private long surveyGu;
+    */
+
 
     @Builder
     public GuEntity(List<DistrictEntity>districtEntities, String guName) {

@@ -7,13 +7,14 @@ import javax.persistence.*;
 @Builder
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
 @Table(name="surv_advantage")
 public class AdvantageEntity {
 
-    @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "advantage_id")
+    @Id
+    @OneToOne(mappedBy = "advantage")
+    @JoinColumn(name = "advantageId")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long advantageId;
 
     @Column(name = "subway")
@@ -37,15 +38,9 @@ public class AdvantageEntity {
     @Column(name = "pet")
     private boolean pet;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "advantage_id")
-    private SurveyEntity surveyId;
-
-
-    /*
     @Builder
     public AdvantageEntity(long advantageId, boolean subway, boolean bus, boolean streetlight,
-                           boolean security, boolean riverparkview, boolean clean, boolean pet, SurveyEntity survey){
+                           boolean security, boolean riverparkview, boolean clean, boolean pet){
         this.advantageId = advantageId;
         this.subway = subway;
         this.bus = bus;
@@ -55,5 +50,4 @@ public class AdvantageEntity {
         this.clean = clean;
         this.pet = pet;
     }
-     */
 }
