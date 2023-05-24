@@ -30,10 +30,11 @@ public class ScoreServiceImpl implements ScoreService {
 
     @Override
     public void calculateAndSaveScores() {
-        List<PopulationEntity> densities = populationRepository.findDensitysOrderedByDescending();
+        List<PopulationEntity> recordList = populationRepository.findDensitysOrderedByDescending();
+
         int rank = 1;
 
-        for(PopulationEntity density :densities ){
+        for(PopulationEntity density :recordList ){
             ScoreEntity scoreEntity = new ScoreEntity();
             scoreEntity.setDensityRank(rank++);
             DistrictEntity districtEntity = density.getDistrictEntity();
@@ -42,9 +43,18 @@ public class ScoreServiceImpl implements ScoreService {
             scoreRepository.save(scoreEntity);
             districtRepository.save(districtEntity);
 
+        }
+
+        rank = 1;
+        recordList = populationRepository.findChildrensOrderedByDescending();
+        for(PopulationEntity chilsren : recordList){
 
         }
 
 
+
+
     }
+
+
 }
