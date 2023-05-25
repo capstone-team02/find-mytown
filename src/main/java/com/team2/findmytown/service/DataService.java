@@ -11,7 +11,6 @@ public interface DataService {
     public DistrictEntity findDistractEntity(final GuEntity guEntity,final String dongName);
     public DistrictEntity updateFacilityDistractEntity(final DistrictEntity districtEntity, final FacilityEntity facilityEntity);
 
-
     public List<PopulationEntity>createPopulation(final PopulationEntity populationEntity);
 
 }

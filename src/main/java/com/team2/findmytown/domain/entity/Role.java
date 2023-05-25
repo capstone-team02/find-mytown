@@ -1,4 +1,3 @@
-
 package com.team2.findmytown.domain.entity;
 
 import lombok.Getter;
@@ -13,4 +12,3 @@ public enum Role {
     private final String key;
     private final String title;
 }
-

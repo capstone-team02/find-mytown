@@ -5,12 +5,19 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
+@Getter
+@Setter
+@Entity
+@Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+
 @Table(uniqueConstraints = {@UniqueConstraint(columnNames = "email")},name = "user")
 public class UserEntity {
     @Id
-    //@OneToOne(targetEntity = SurveyEntity.class)
     @GeneratedValue(generator = "system-uuid") //자동으로 할당
-    @GenericGenerator(name="system-uuid",strategy = "uuid")
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
 
     @Column(nullable = false)
@@ -25,11 +32,9 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role; //성별 (권한으로 설정)
 
-
     @Builder
-    public UserEntity(String username, String email){
+    public UserEntity(String username, String email) {
         this.email = email;
         this.username = username;
     }
-
 }
