@@ -45,13 +45,10 @@ public class DistrictEntity {
     private GuEntity guEntity;
 
 
-
-
     //동: 설문조사 = 1: 다 관계
     @JsonManagedReference
     @OneToMany(mappedBy ="districtEntity",fetch = FetchType.EAGER)
     @ToString.Exclude
     private List<SurveyEntity> surveyEntities = new ArrayList<>();
-
 
 }

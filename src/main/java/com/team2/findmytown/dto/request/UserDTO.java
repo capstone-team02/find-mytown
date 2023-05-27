@@ -2,9 +2,7 @@ package com.team2.findmytown.dto.request;
 
 
 import com.team2.findmytown.domain.entity.Role;
-import com.team2.findmytown.domain.entity.UserEntity;
 import lombok.*;
-import org.springframework.security.core.userdetails.User;
 
 @Builder
 @Getter

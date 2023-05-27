@@ -2,6 +2,7 @@ package com.team2.findmytown.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
@@ -14,12 +15,12 @@ public class SurveyEntity {
 
     @Id
     @Column(name = "survey_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long surveyId;
+    @GeneratedValue(generator = "system-uuid") //자동으로 할당
+    @GenericGenerator(name = "system-uuid", strategy = "uuid")
+    private String surveyId;
 
-    private long userId;
-
-
+    @OneToOne(mappedBy = "survey")
+    private UserEntity user;
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
@@ -27,22 +28,19 @@ public class SurveyEntity {
     @ToString.Exclude
     private DistrictEntity districtEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="mood_id")
-    private MoodEntity moodEntity;
+    @Column(name="mood_id")
+    private String mood;
 
+    private String age;
 
+    @Column(name = "advantage_id")
+    private String advantage;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "advantage_id")
-    private AdvantageEntity advantageEntity;
-
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "disadvantage_id")
-    private DisadvantageEntity disadvantage;
+    @Column(name = "disadvantage_id")
+    private String disadvantage;
 
     @Column(name = "recommend_gender")
-    private boolean recommendGender;
+    private Role recommendGender;
 
     @Column(name = "recommend_age")
     private String recommendAge;
@@ -50,21 +48,18 @@ public class SurveyEntity {
     @Column(name = "recommend_housing")
     private String recommendHousing;
 
-    private int star;
-
+    private String star;
     @Column(length = 50)
     private String review;
 
 
-
-    /*
     @Builder
-    public SurveyEntity(long surveyId, long userId, int age, long guId, long mood, long advantage, long disadvantage,
-                        boolean recommendGender, String recommendAge, String recommendHousing, int star, String review){
-        this.surveyId = surveyId;
-        this.userId = userId;
+    public SurveyEntity(UserEntity user, String age, DistrictEntity district, String mood, String advantage,
+                        String disadvantage, Role recommendGender, String recommendAge, String recommendHousing,
+                        String star, String review){
+        this.user = user;
         this.age = age;
-        this.guId = guId;
+        this.districtEntity = district;
         this.mood = mood;
         this.advantage = advantage;
         this.disadvantage = disadvantage;
@@ -74,6 +69,4 @@ public class SurveyEntity {
         this.star = star;
         this.review = review;
     }
-
-     */
 }

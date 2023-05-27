@@ -23,5 +23,6 @@ public interface UserService {
 
     public String randomNickname()throws IOException;
 
+    public UserEntity getUserbyEmail(final String email);
 
 }

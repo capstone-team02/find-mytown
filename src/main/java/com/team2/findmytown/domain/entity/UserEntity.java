@@ -32,6 +32,10 @@ public class UserEntity {
     @Enumerated(EnumType.STRING)
     private Role role; //성별 (권한으로 설정)
 
+    @OneToOne
+    @JoinColumn(name = "survey_id")
+    private SurveyEntity survey;
+
     @Builder
     public UserEntity(String username, String email) {
         this.email = email;
