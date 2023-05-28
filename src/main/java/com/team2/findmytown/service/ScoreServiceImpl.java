@@ -78,7 +78,7 @@ public class ScoreServiceImpl implements ScoreService {
             case "childrenRank":
                 // 어린이에 대한 순위 계산 로직 추가
                 return calculateChildrenRank(populationEntity);
-            // 나머지 필드에 대한 순위 계산 로직 추가
+
             default:
                 return 0;
         }
