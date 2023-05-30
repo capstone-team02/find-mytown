@@ -1,13 +1,16 @@
 package com.team2.findmytown.controller;
 
-
 import com.team2.findmytown.domain.entity.DistrictEntity;
 import com.team2.findmytown.domain.entity.FacilityEntity;
 import com.team2.findmytown.domain.entity.GuEntity;
 import com.team2.findmytown.domain.entity.PopulationEntity;
 import com.team2.findmytown.service.DataServiceImpl;
+import com.team2.findmytown.service.PopulationDensityService;
+import com.team2.findmytown.service.RealEstateService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +22,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -28,9 +30,16 @@ import java.util.Optional;
 public class DataController {
 
     private final DataServiceImpl dataService;
+
+    private final RealEstateService realEstateService;
+
+    private final PopulationDensityService populationDensityService;
+
     @Autowired
-    public DataController(DataServiceImpl dataService){
+    public DataController(DataServiceImpl dataService, RealEstateService realEstateService, PopulationDensityService populationDensityService){
         this.dataService = dataService;
+        this.realEstateService = realEstateService;
+        this.populationDensityService = populationDensityService;
     }
 
 
@@ -156,13 +165,22 @@ public class DataController {
             e.printStackTrace();
         }
 
-
-
-
-
-
-
         return ResponseEntity.ok().build();
 
     }
+
+
+    //인구밀도 .xlsx 적재
+    @GetMapping("/populationDensity")
+    public ResponseEntity excel(){
+        populationDensityService.insertPopulationDensity();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+    @GetMapping("/realEstate")
+    public ResponseEntity realEstate() {
+        realEstateService.trade();
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
+
 }

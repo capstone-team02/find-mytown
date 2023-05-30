@@ -31,7 +31,7 @@ public class SurveyController {
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
             UserEntity userEntity = userService.getUserbyEmail(surveyDTO.getUserEmail());
-            DistrictEntity districtEntity = surveyService.findDistrictbyName(surveyDTO.getDistrict());
+            DistrictEntity districtEntity = surveyService.findDistrictEntity(surveyDTO.getDistrict());
             Role recommendRole;
 
             if (surveyDTO == null || surveyDTO.getUserEmail() == null) {
@@ -97,7 +97,7 @@ public class SurveyController {
 
     @GetMapping("/findDistrict")
     public DistrictEntity findDistrict(@RequestBody String district){
-        return surveyService.findDistrictbyName(district);
+        return surveyService.findDistrictEntity(district);
     }
 
 }

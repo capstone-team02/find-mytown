@@ -8,7 +8,7 @@ public interface SurveyService {
 
     public SurveyEntity createSurveyAnswer(final SurveyEntity surveyEntity);
 
-    public DistrictEntity findDistrictbyName(final String districtName);
+    public DistrictEntity findDistrictEntity(final String districtName);
 
     public GuEntity findGuEntity(final String guName);
 
