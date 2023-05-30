@@ -3,6 +3,8 @@ package com.team2.findmytown.service;
 
 import com.team2.findmytown.config.SecurityUtil;
 import com.team2.findmytown.domain.entity.UserEntity;
+import com.team2.findmytown.domain.repository.DistrictRepository;
+import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -33,7 +35,6 @@ import java.util.Random;
 public class UserServiceImple implements UserService{
     @Autowired
     private UserRepository userRepository;
-
     private JavaMailSender mailSender;
 
     @Override

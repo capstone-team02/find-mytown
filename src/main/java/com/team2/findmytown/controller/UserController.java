@@ -1,33 +1,20 @@
 package com.team2.findmytown.controller;
 
-
-import com.team2.findmytown.config.SecurityUtil;
-import com.team2.findmytown.domain.entity.DistrictEntity;
 import com.team2.findmytown.domain.entity.Role;
-import com.team2.findmytown.domain.entity.SurveyEntity;
 import com.team2.findmytown.domain.entity.UserEntity;
-import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.MailDTO;
-import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.request.UserDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.security.TokenProvider;
 import com.team2.findmytown.service.*;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.DataInput;
-import java.security.Principal;
 
 @Slf4j
 @RestController
@@ -103,60 +90,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/survey")
-    //public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO, @RequestParam String email) {
-    public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
-        try {
-            UserEntity userEntity = userService.getUserbyEmail(surveyDTO.getUserEmail());
-            DistrictEntity districtEntity = surveyService.findDistrictbyName(surveyDTO.getDistrict());
-            Role recommendRole;
-
-            if (surveyDTO == null || surveyDTO.getUserEmail() == null) {
-                throw new RuntimeException("Survey Response Not Received");
-            } else if (userEntity == null) {
-                throw new RuntimeException("Can't find User info");
-            }
-
-            if (surveyDTO.getIsFemale()==true) {
-                recommendRole = Role.FEMALE;
-            } else recommendRole = Role.MALE;
-
-            SurveyEntity survey = SurveyEntity.builder()
-                    .user(userEntity)
-                    .district(districtEntity)
-                    .mood(surveyDTO.getMood())
-                    .advantage(surveyDTO.getAdvantage())
-                    .disadvantage(surveyDTO.getDisadvantage())
-                    .recommendGender(recommendRole)
-                    .recommendHousing(surveyDTO.getRecommendHousing())
-                    .recommendAge(surveyDTO.getRecommendAge())
-                    .star(surveyDTO.getStar())
-                    .age(surveyDTO.getAge())
-                    .review(surveyDTO.getReview())
-                    .build();
-
-            SurveyEntity registerSurvey = surveyService.createSurveyAnswer(survey);
-
-            SurveyDTO responseSurveyDTO = SurveyDTO.builder()
-                    .userEmail(registerSurvey.getUser().getEmail())
-                    .district(registerSurvey.getDistrictEntity().getDistrictName())
-                    .mood(registerSurvey.getMood())
-                    .advantage(registerSurvey.getAdvantage())
-                    .disadvantage(registerSurvey.getDisadvantage())
-                    .recommendGender(registerSurvey.getRecommendGender())
-                    .recommendHousing(registerSurvey.getRecommendHousing())
-                    .recommendAge(registerSurvey.getAge())
-                    .star(registerSurvey.getStar())
-                    .age(registerSurvey.getAge())
-                    .review(registerSurvey.getReview()).build();
-
-            return ResponseEntity.ok(responseSurveyDTO);
-        } catch (Exception e) {
-            ResponseDTO responseDTO = ResponseDTO.builder().error(e.getMessage()).build();
-
-            return ResponseEntity.badRequest().body(responseDTO);
-        }
-    }
 
 
     @PostMapping("/signin")

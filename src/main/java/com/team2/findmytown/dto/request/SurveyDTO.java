@@ -1,9 +1,10 @@
 package com.team2.findmytown.dto.request;
 
 
-import com.team2.findmytown.domain.entity.DistrictEntity;
 import com.team2.findmytown.domain.entity.Role;
 import lombok.*;
+
+import java.util.List;
 
 @Builder
 @Getter
@@ -13,10 +14,11 @@ import lombok.*;
 @AllArgsConstructor
 public class SurveyDTO {
     private String userEmail;
+    private String Gu;
     private String district;
-    private String mood;
-    private String advantage;
-    private String disadvantage;
+    private List<String> mood;
+    private List<String> advantage;
+    private List<String> disadvantage;
     private Role recommendGender;
     private String recommendAge;
     private String recommendHousing;
@@ -24,4 +26,5 @@ public class SurveyDTO {
     private String star;
     private String review;
     private Boolean isFemale;
+    private String gptReview;
 }

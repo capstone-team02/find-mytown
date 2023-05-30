@@ -5,6 +5,8 @@ import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 //@Builder
 @Data
@@ -29,15 +31,18 @@ public class SurveyEntity {
     private DistrictEntity districtEntity;
 
     @Column(name="mood_id")
-    private String mood;
+    @ElementCollection
+    private List<String> mood = new ArrayList<String>();
 
     private String age;
 
     @Column(name = "advantage_id")
-    private String advantage;
+    @ElementCollection
+    private List<String> advantage = new ArrayList<String>();
 
     @Column(name = "disadvantage_id")
-    private String disadvantage;
+    @ElementCollection
+    private List<String> disadvantage = new ArrayList<String>();
 
     @Column(name = "recommend_gender")
     private Role recommendGender;
@@ -49,14 +54,18 @@ public class SurveyEntity {
     private String recommendHousing;
 
     private String star;
+
     @Column(length = 50)
     private String review;
 
+    @Column
+    private String gptReview;
+
 
     @Builder
-    public SurveyEntity(UserEntity user, String age, DistrictEntity district, String mood, String advantage,
-                        String disadvantage, Role recommendGender, String recommendAge, String recommendHousing,
-                        String star, String review){
+    public SurveyEntity(UserEntity user, String age, DistrictEntity district, List<String> mood, List<String> advantage,
+                        List<String> disadvantage, Role recommendGender, String recommendAge, String recommendHousing,
+                        String star, String review,String gptReview){
         this.user = user;
         this.age = age;
         this.districtEntity = district;
@@ -68,5 +77,6 @@ public class SurveyEntity {
         this.recommendHousing = recommendHousing;
         this.star = star;
         this.review = review;
+        this.gptReview = gptReview;
     }
 }

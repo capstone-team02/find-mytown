@@ -1,8 +1,10 @@
 package com.team2.findmytown.service;
 
 import com.team2.findmytown.domain.entity.DistrictEntity;
+import com.team2.findmytown.domain.entity.GuEntity;
 import com.team2.findmytown.domain.entity.SurveyEntity;
 import com.team2.findmytown.domain.repository.DistrictRepository;
+import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -16,12 +18,13 @@ public class SurveyServiceImpl implements SurveyService{
 
     @Autowired
     private SurveyRepository surveyRepository;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private DistrictRepository districtRepository;
+    @Autowired
+    private GuRepository guRepository;
+
 
     @Override
     public SurveyEntity createSurveyAnswer(SurveyEntity surveyEntity) {
@@ -34,8 +37,12 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.save(surveyEntity);
     }
 
-    @Override
-    public DistrictEntity findDistrictbyName(String districtName){
+    public DistrictEntity findDistrictEntity(String districtName){
         return districtRepository.findByDistrictName(districtName);
     }
+
+    public GuEntity findGuEntity(String guName){
+        return guRepository.getByGuName(guName);
+    }
+
 }
