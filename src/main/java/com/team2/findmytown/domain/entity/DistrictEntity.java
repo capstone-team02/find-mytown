@@ -28,11 +28,11 @@ public class DistrictEntity {
 
 
     //인구 분포
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="population_id")
     private PopulationEntity populationEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="facility_id")
     private FacilityEntity facilityEntity;
 

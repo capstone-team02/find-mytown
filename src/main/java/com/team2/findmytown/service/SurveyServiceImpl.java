@@ -7,9 +7,13 @@ import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.dto.request.GuNameDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Slf4j
@@ -37,12 +41,27 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.save(surveyEntity);
     }
 
+    @Override
+    public DistrictEntity findDistrictbyName(String districtName) {
+        return null;
+    }
+
     public DistrictEntity findDistrictEntity(String districtName){
         return districtRepository.findByDistrictName(districtName);
     }
 
     public GuEntity findGuEntity(String guName){
         return guRepository.getByGuName(guName);
+    }
+
+    public List<String> findGuNames(){
+        List<GuEntity> gu = new ArrayList<>();
+        List<String> guNames = new ArrayList<>();
+        gu = guRepository.findAll();
+        for(int i =0 ; i<gu.size(); i++){
+            guNames.add(gu.get(i).getGuName());
+        }
+        return guNames;
     }
 
 }
