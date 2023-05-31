@@ -1,9 +1,9 @@
 package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
+import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
-import com.team2.findmytown.dto.request.SurveyDTO;
-import com.team2.findmytown.dto.response.ResponseDTO;
+import com.team2.findmytown.dto.request.DistrictNameDTO;
 import com.team2.findmytown.service.ChatGPTService;
 import com.team2.findmytown.service.SurveyServiceImpl;
 import com.team2.findmytown.service.UserServiceImple;
@@ -13,7 +13,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @RestController
@@ -30,9 +32,11 @@ public class SurveyController {
     private UserServiceImple userService;
 
     private final GuRepository guRepository;
+    private final DistrictRepository districtRepository;
 
-    public SurveyController(GuRepository guRepository) {
+    public SurveyController(GuRepository guRepository, DistrictRepository districtRepository) {
         this.guRepository = guRepository;
+        this.districtRepository = districtRepository;
     }
 
 //    @PostMapping("/survey")
@@ -105,10 +109,10 @@ public class SurveyController {
 //    }
 
 
-    @GetMapping("/districtNames")
-    public ResponseEntity<List<String>> getGuNames(){
 
-        return ResponseEntity.ok(surveyService.findGuNames());
+    @GetMapping("/dongNames")
+    public ResponseEntity<?> getDongNames(){
+        return ResponseEntity.ok(surveyService.districtNames());
     }
 
 //    @GetMapping("/findDistrict")

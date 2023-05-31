@@ -7,7 +7,7 @@ import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
-import com.team2.findmytown.dto.request.GuNameDTO;
+import com.team2.findmytown.dto.request.DistrictNameDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -54,14 +54,30 @@ public class SurveyServiceImpl implements SurveyService{
         return guRepository.getByGuName(guName);
     }
 
-    public List<String> findGuNames(){
+    public List<DistrictNameDTO> districtNames(){
         List<GuEntity> gu = new ArrayList<>();
         List<String> guNames = new ArrayList<>();
+
         gu = guRepository.findAll();
-        for(int i =0 ; i<gu.size(); i++){
-            guNames.add(gu.get(i).getGuName());
+
+        DistrictNameDTO districtNameDTO;
+        List<DistrictNameDTO> districtNameList = new ArrayList<>();
+        for(int i =0 ; i<gu.size();i++){
+            guNames.add(gu.get(i).getGuName().toString());
+            for(int j =0 ; j<gu.get(i).getDistrictEntities().size(); j++) {
+                //districtNames.put(gu.get(i).getGuName().toString(), gu.get(i).getDistrictEntities().get(j).getDistrictName().toString());
+                districtNameDTO = DistrictNameDTO.builder()
+                        .guName(gu.get(i).getGuName().toString())
+                        .dongName(gu.get(i).getDistrictEntities().get(j).getDistrictName().toString())
+                        .build();
+                districtNameList.add(districtNameDTO);
+            }
         }
-        return guNames;
+        return districtNameList;
     }
+//
+//    public List<String> findDongNames(){
+//
+//    }
 
 }

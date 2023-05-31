@@ -18,4 +18,5 @@ public interface DistrictRepository extends JpaRepository<DistrictEntity, String
 
     List<DistrictEntity> findAllByDistrictName(String districtName);
 
+
 }
