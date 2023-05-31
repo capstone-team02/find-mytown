@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -105,8 +106,9 @@ public class SurveyController {
 
 
     @GetMapping("/districtNames")
-    public ResponseEntity<List<GuEntity>> getGuNames(){
-        return ResponseEntity.ok(guRepository.findAll());
+    public ResponseEntity<List<String>> getGuNames(){
+
+        return ResponseEntity.ok(surveyService.findGuNames());
     }
 
 //    @GetMapping("/findDistrict")
