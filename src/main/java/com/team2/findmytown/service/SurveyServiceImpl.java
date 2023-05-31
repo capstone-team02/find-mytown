@@ -41,11 +41,6 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.save(surveyEntity);
     }
 
-    @Override
-    public DistrictEntity findDistrictbyName(String districtName) {
-        return null;
-    }
-
     public DistrictEntity findDistrictEntity(String districtName){
         return districtRepository.findByDistrictName(districtName);
     }

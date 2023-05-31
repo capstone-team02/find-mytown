@@ -18,6 +18,7 @@ public class GuDTO {
 
     private String guName;
 
+    @Builder.Default
     private List<DistrictEntity> districtEntities = new ArrayList<>();
 
     public GuDTO(final GuEntity guEntity){

@@ -31,7 +31,7 @@ public class PopulationDensityServiceImpl implements PopulationDensityService {
         List<String> populationList = new ArrayList<>();
         List<String> densityList = new ArrayList<>();
         try {
-            FileInputStream file = new FileInputStream("C:\\capstone\\src\\main\\resources\\인구밀도_20230405134931.xlsx");
+            FileInputStream file = new FileInputStream("src/main/resources/인구밀도_20230405134931.xlsx");
             XSSFWorkbook workbook = new XSSFWorkbook(file);
 
             int rowIndex = 0;
