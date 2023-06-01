@@ -34,7 +34,7 @@ public interface PopulationRepository extends JpaRepository<PopulationEntity, Lo
     @Query(value = "SELECT p FROM PopulationEntity  p ORDER BY p.elder DESC ")
     List<PopulationEntity> findElderOrderedByDescending();
 
-    @Query(value = "SELECT p FROM PopulationEntity  p ORDER BY p.forign DESC ")
+    @Query(value = "SELECT p FROM PopulationEntity  p ORDER BY p.foriegn DESC ")
     List<PopulationEntity> findForignsOrderedByDescending();
 
 

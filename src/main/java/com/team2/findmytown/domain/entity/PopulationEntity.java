@@ -53,7 +53,7 @@ public class PopulationEntity { //인구
 
     //외국인
     @Column(name = "foriegn")
-    private long forign;
+    private long foriegn;
 
 
     @OneToOne(mappedBy = "populationEntity")
@@ -61,7 +61,7 @@ public class PopulationEntity { //인구
 
 
     @Builder
-    public PopulationEntity(long density,long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long forign) {
+    public PopulationEntity(long density,long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long foriegn) {
         this.children = children;
         this.teen = teen;
         this.twenty = twenty;
@@ -69,7 +69,7 @@ public class PopulationEntity { //인구
         this.fourty = fourty;
         this.fifSix = fifSix;
         this.elder = elder;
-        this.forign = forign;
+        this.foriegn = foriegn;
         this.density = density;
     }
 }
