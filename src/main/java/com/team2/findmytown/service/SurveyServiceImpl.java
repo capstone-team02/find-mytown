@@ -1,13 +1,10 @@
 package com.team2.findmytown.service;
 
-import com.team2.findmytown.domain.entity.DistrictEntity;
-import com.team2.findmytown.domain.entity.GuEntity;
-import com.team2.findmytown.domain.entity.SurveyEntity;
+import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
-import com.team2.findmytown.dto.request.GuNameDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +25,8 @@ public class SurveyServiceImpl implements SurveyService{
     private DistrictRepository districtRepository;
     @Autowired
     private GuRepository guRepository;
+    @Autowired
+    private UserServiceImple userService;
 
 
     @Override
@@ -41,12 +40,12 @@ public class SurveyServiceImpl implements SurveyService{
         return surveyRepository.save(surveyEntity);
     }
 
-    public DistrictEntity findDistrictEntity(String districtName){
+    public DistrictEntity findDistrict(String districtName){
         return districtRepository.findByDistrictName(districtName);
     }
 
-    public GuEntity findGuEntity(String guName){
-        return guRepository.getByGuName(guName);
+    public UserEntity findUser(String email){
+        return userRepository.findByEmail(email);
     }
 
     public List<String> findGuNames(){

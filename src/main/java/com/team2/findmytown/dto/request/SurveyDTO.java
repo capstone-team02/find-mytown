@@ -14,7 +14,6 @@ import java.util.List;
 @AllArgsConstructor
 public class SurveyDTO {
     private String userEmail;
-    private String Gu;
     private String district;
     private List<String> mood;
     private List<String> advantage;

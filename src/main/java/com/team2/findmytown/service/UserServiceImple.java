@@ -3,16 +3,12 @@ package com.team2.findmytown.service;
 
 import com.team2.findmytown.config.SecurityUtil;
 import com.team2.findmytown.domain.entity.UserEntity;
-import com.team2.findmytown.domain.repository.DistrictRepository;
-import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -20,7 +16,6 @@ import org.springframework.mail.javamail.JavaMailSender;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 
 import javax.transaction.Transactional;
 import java.io.IOException;

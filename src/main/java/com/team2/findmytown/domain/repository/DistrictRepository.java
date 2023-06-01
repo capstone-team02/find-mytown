@@ -17,5 +17,4 @@ public interface DistrictRepository extends JpaRepository<DistrictEntity, String
     DistrictEntity findDistinctByGuEntityAndDistrictName(GuEntity guEntity, String districtName);
 
     List<DistrictEntity> findAllByDistrictName(String districtName);
-
 }

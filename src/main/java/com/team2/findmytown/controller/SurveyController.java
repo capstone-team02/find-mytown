@@ -37,12 +37,12 @@ public class SurveyController {
     }
 
 
-    @PostMapping("/survey")
-    //public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO, @RequestParam String email) {
+    @PostMapping("/surveyAnswer")
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
-            UserEntity userEntity = userService.getUserbyEmail(surveyDTO.getUserEmail());
-            DistrictEntity districtEntity = surveyService.findDistrictEntity(surveyDTO.getDistrict());
+
+            UserEntity userEntity = surveyService.findUser(surveyDTO.getUserEmail());
+            DistrictEntity districtEntity = surveyService.findDistrict(surveyDTO.getDistrict());
             Role recommendRole;
 
             if (surveyDTO == null || surveyDTO.getUserEmail() == null) {
@@ -51,15 +51,14 @@ public class SurveyController {
                 throw new RuntimeException("Can't find User info");
             }
 
+            if (districtEntity==null){
+                throw new RuntimeException("doesn't exist Area");
+            }
+
             if (surveyDTO.getIsFemale()==true) {
                 recommendRole = Role.FEMALE;
             } else recommendRole = Role.MALE;
 
-            GuEntity gu = findGu(surveyDTO.getGu());
-            DistrictEntity district = findDistrict(surveyDTO.getDistrict());
-            if (gu==null || district==null){
-                throw new RuntimeException("doesn't exist Area");
-            }
 
             SurveyEntity survey = SurveyEntity.builder()
                     .user(userEntity)
@@ -73,11 +72,9 @@ public class SurveyController {
                     .star(surveyDTO.getStar())
                     .age(surveyDTO.getAge())
                     .review(surveyDTO.getReview())
-                    .gptReview(chatGPTService.getChatMakeReview(surveyDTO))
+                    //.gptReview(chatGPTService.getChatMakeReview(surveyDTO))
                     .build();
-
             SurveyEntity registerSurvey = surveyService.createSurveyAnswer(survey);
-
 
             SurveyDTO responseSurveyDTO = SurveyDTO.builder()
                     .userEmail(registerSurvey.getUser().getEmail())
@@ -91,7 +88,8 @@ public class SurveyController {
                     .star(registerSurvey.getStar())
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
-                    .gptReview(registerSurvey.getGptReview()).build();
+                    //.gptReview(registerSurvey.getGptReview())
+                    .build();
 
             return ResponseEntity.ok(responseSurveyDTO);
         } catch (Exception e) {
@@ -106,16 +104,4 @@ public class SurveyController {
 
         return ResponseEntity.ok(surveyService.findGuNames());
     }
-
-    @GetMapping("/findGu")
-    public GuEntity findGu(@RequestBody String gu){
-        return surveyService.findGuEntity(gu);
-    }
-
-
-    @GetMapping("/findDistrict")
-    public DistrictEntity findDistrict(@RequestBody String district){
-        return surveyService.findDistrictEntity(district);
-    }
-
 }
