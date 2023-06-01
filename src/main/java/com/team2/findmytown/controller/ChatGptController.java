@@ -16,12 +16,12 @@ public class ChatGptController {
     private final ChatGPTService chatGPTService;
     private final ChatgptService chatgptService;
 
-    @PostMapping("/makeReview")
+    @PostMapping("makeReview")
     public String makeReview(@RequestBody SurveyDTO SurveyDTO) {
         return chatGPTService.getChatMakeReview(SurveyDTO);
     }
 
-    @PostMapping("/chatBot")
+    @PostMapping("chatBot")
     public String test(@RequestBody String question) {
         return chatGPTService.getChatResponse(question);
     }
