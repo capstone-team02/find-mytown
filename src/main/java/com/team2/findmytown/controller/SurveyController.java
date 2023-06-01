@@ -72,7 +72,7 @@ public class SurveyController {
                     .star(surveyDTO.getStar())
                     .age(surveyDTO.getAge())
                     .review(surveyDTO.getReview())
-                    .gptReview(chatGPTService.getChatMakeReview(surveyDTO))
+                    //.gptReview(chatGPTService.getChatMakeReview(surveyDTO))
                     .build();
             SurveyEntity registerSurvey = surveyService.createSurveyAnswer(survey);
 
@@ -88,7 +88,7 @@ public class SurveyController {
                     .star(registerSurvey.getStar())
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
-                    .gptReview(registerSurvey.getGptReview())
+                    //.gptReview(registerSurvey.getGptReview())
                     .build();
 
             return ResponseEntity.ok(responseSurveyDTO);
