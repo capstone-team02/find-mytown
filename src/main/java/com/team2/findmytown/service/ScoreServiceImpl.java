@@ -78,6 +78,23 @@ public class ScoreServiceImpl implements ScoreService {
             case "childrenRank":
                 // 어린이에 대한 순위 계산 로직 추가
                 return calculateChildrenRank(populationEntity);
+            case "teenRank":
+                // 어린이에 대한 순위 계산 로직 추가
+                return calculateTeenRank(populationEntity);
+            case "twentyRank":
+                return calculateTwentyRank(populationEntity);
+            case "thirtyRank":
+                return calculateThirtyRank(populationEntity);
+            case "fourtyRank":
+                return calculateFourtyRank(populationEntity);
+            case "fifSixRank":
+                return calculateFifSix(populationEntity);
+            case "elderRank":
+                return calculateElder(populationEntity);
+            case "foriegnRank":
+                return calculateForiegn(populationEntity);
+
+
 
             default:
                 return 0;

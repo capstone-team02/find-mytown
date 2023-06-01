@@ -106,7 +106,7 @@ public class DataController {
                     .fourty(Long.parseLong(data[6]))
                     .fifSix(Long.parseLong(data[7]))
                     .elder(Long.parseLong(data[8]))
-                    .forign(Long.parseLong(data[9]))
+                    .foriegn(Long.parseLong(data[9]))
                     .density(Long.parseLong(data[10]))
                     .districtEntity(null)
                     .build();
