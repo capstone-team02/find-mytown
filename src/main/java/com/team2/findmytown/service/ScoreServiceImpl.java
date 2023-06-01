@@ -1,9 +1,11 @@
 package com.team2.findmytown.service;
 
 import com.team2.findmytown.domain.entity.DistrictEntity;
+import com.team2.findmytown.domain.entity.FacilityEntity;
 import com.team2.findmytown.domain.entity.PopulationEntity;
 import com.team2.findmytown.domain.entity.ScoreEntity;
 import com.team2.findmytown.domain.repository.DistrictRepository;
+import com.team2.findmytown.domain.repository.FacilityRepository;
 import com.team2.findmytown.domain.repository.PopulationRepository;
 import com.team2.findmytown.domain.repository.ScoreRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -23,12 +25,14 @@ public class ScoreServiceImpl implements ScoreService {
     private final ScoreRepository scoreRepository;
 
     private final DistrictRepository districtRepository;
+    private final FacilityRepository facilityRepository;
 
     @Autowired
-    public ScoreServiceImpl(PopulationRepository populationRepository, ScoreRepository scoreRepository,DistrictRepository districtRepository) {
+    public ScoreServiceImpl(PopulationRepository populationRepository, ScoreRepository scoreRepository,DistrictRepository districtRepository, FacilityRepository facilityRepository) {
         this.populationRepository = populationRepository;
         this.scoreRepository = scoreRepository;
         this.districtRepository = districtRepository;
+        this.facilityRepository = facilityRepository;
     }
 
     @Override
@@ -41,6 +45,7 @@ public class ScoreServiceImpl implements ScoreService {
             ScoreEntity scoreEntity = new ScoreEntity();
             scoreEntity.setDensityRank(rank++);
             setRankValues(scoreEntity, density);
+            setFacilityValues(scoreEntity, density.getDistrictEntity().getFacilityEntity(), recordList.size()); // 시설 정보 저장
             scoreEntities.add(scoreEntity);
 
             DistrictEntity districtEntity = density.getDistrictEntity();
@@ -54,6 +59,18 @@ public class ScoreServiceImpl implements ScoreService {
 
 
     }
+    private void setFacilityValues(ScoreEntity scoreEntity, FacilityEntity facilityEntity, int recordCount) {
+        scoreEntity.setBankRank(recordCount - facilityEntity.getBank() + 1);
+        scoreEntity.setShoppingCenterRank(recordCount - facilityEntity.getShoppingCenter() + 1);
+        scoreEntity.setEducationRank(recordCount - facilityEntity.getEducation() + 1);
+        scoreEntity.setParkingRank(recordCount - facilityEntity.getParking() + 1);
+        scoreEntity.setCultureRank(recordCount - facilityEntity.getCulture() + 1);
+        scoreEntity.setChildcareRank(recordCount - facilityEntity.getChildcare() + 1);
+        scoreEntity.setRestaurantRank(recordCount - facilityEntity.getRestaurant() + 1);
+        scoreEntity.setCafeRank(recordCount - facilityEntity.getCafe() + 1);
+    }
+
+
 
     private void setRankValues(ScoreEntity scoreEntity, PopulationEntity populationEntity) {
         try {
