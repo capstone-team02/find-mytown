@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface SurveyRepository extends JpaRepository<SurveyEntity, String> {
     List<SurveyEntity> findAllByDistrictEntity(DistrictEntity districtId);
+
 }
