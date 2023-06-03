@@ -117,12 +117,13 @@ public class SurveyServiceImpl implements SurveyService {
 
     public List<DistrictNameDTO> getGuAndDistrict() {
         List<GuAndDistrictNameEntity> list = guAndDistrictNameRepository.findAll();
-        List<List<GuAndDistrictNameEntity>> guEntity = new ArrayList<>();
         List<GuEntity> guIdList = guRepository.findAll();
         List<Long> guId = new ArrayList<>();
         Map<String, List<String>> districtNameList = new HashMap<>();
         List<String> g = new ArrayList();
         List<DistrictNameDTO> result = new ArrayList<>();
+        DistrictNameDTO districtNameDTO = null;
+
 
         for (int k = 0; k < guIdList.size(); k++) {
             guId.add(guIdList.get(k).getGuId());
@@ -141,18 +142,18 @@ public class SurveyServiceImpl implements SurveyService {
             if (k != 24) {
                 g = new ArrayList<>();
             }
-            DistrictNameDTO districtNameDTO = null;
-
-            for (String s : districtNameList.keySet()) {
-                districtNameDTO = DistrictNameDTO
-                        .builder()
-                        .guName(s)
-                        .dongName(districtNameList.get(s))
-                        .build();
-                result.add(districtNameDTO);
-            }
 
         }
+        for (String s : districtNameList.keySet()) {
+            districtNameDTO = DistrictNameDTO
+                    .builder()
+                    .guName(s)
+                    .dongName(districtNameList.get(s))
+                    .build();
+            result.add(districtNameDTO);
+        }
+
+
 
         return result;
     }
