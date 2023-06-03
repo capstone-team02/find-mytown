@@ -19,5 +19,5 @@ public interface SurveyService {
 
     public List<String> guNames();
 
-    public Map<String, List<String>> getGuAndDistrict();
+    public List<DistrictNameDTO> getGuAndDistrict();
 }
