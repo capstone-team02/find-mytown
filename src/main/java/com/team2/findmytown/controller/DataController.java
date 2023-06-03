@@ -159,6 +159,7 @@ public class DataController {
                         .education(Integer.parseInt(data2[5]))
                         .culture(Integer.parseInt(data2[6]))
                         .shoppingCenter(Integer.parseInt(data2[7]))
+                        .districtEntity(districtEntity)
                         .build();
 
                 dataService.updateFacilityDistractEntity(districtEntity,facilityEntity);

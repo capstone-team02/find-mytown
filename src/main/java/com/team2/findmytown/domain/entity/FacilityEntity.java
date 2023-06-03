@@ -1,15 +1,12 @@
 package com.team2.findmytown.domain.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Builder
-@AllArgsConstructor
-@Data
+@Getter
+@Setter
 @Entity
 @NoArgsConstructor
 @Table(name="facility")
@@ -44,11 +41,22 @@ public class FacilityEntity {
     @Column(name = "cafe")
     private int cafe;
 
+    @OneToOne(mappedBy = "facilityEntity")
+    private DistrictEntity districtEntity;
 
 
-
-
-
-
+    @Builder
+    public FacilityEntity(Long facilityId, int bank, int shoppingCenter, int education, int parking, int culture, int childcare, int restaurant, int cafe, DistrictEntity districtEntity) {
+        this.facilityId = facilityId;
+        this.bank = bank;
+        this.shoppingCenter = shoppingCenter;
+        this.education = education;
+        this.parking = parking;
+        this.culture = culture;
+        this.childcare = childcare;
+        this.restaurant = restaurant;
+        this.cafe = cafe;
+        this.districtEntity = districtEntity;
+    }
 }
 
