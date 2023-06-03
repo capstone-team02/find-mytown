@@ -26,7 +26,7 @@ public class GuEntity {
     // 구: 동 = 1:다 관계
     @JsonManagedReference
     @OneToMany(mappedBy = "guEntity",fetch = FetchType.EAGER)
-    @ToString.Exclude
+    @ToString.Exclude @Builder.Default
     private List<DistrictEntity> districtEntities = new ArrayList<>();
 
     /*

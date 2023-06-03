@@ -48,7 +48,7 @@ public class DistrictEntity {
     //동: 설문조사 = 1: 다 관계
     @JsonManagedReference
     @OneToMany(mappedBy ="districtEntity",fetch = FetchType.EAGER)
-    @ToString.Exclude
+    @ToString.Exclude @Builder.Default
     private List<SurveyEntity> surveyEntities = new ArrayList<>();
 
 }
