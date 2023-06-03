@@ -18,7 +18,7 @@ public class ChatGptController {
 
     @PostMapping("/makeReview")
     public String makeReview(@RequestBody SurveyDTO SurveyDTO) {
-        return chatGPTService.getChatMakeReview(SurveyDTO);
+        return chatGPTService.getGptMakeReview(SurveyDTO);
     }
 
     @PostMapping("/chatBot")

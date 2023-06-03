@@ -26,4 +26,5 @@ public class SurveyDTO {
     private String review;
     private Boolean isFemale;
     private String gptReview;
+    private String totalReview;
 }

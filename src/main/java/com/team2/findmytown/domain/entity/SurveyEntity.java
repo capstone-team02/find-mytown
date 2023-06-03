@@ -24,6 +24,8 @@ public class SurveyEntity {
     @OneToOne(mappedBy = "survey")
     private UserEntity user;
 
+    private String userEmail;
+
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="district_id")
@@ -61,12 +63,16 @@ public class SurveyEntity {
     @Column
     private String gptReview;
 
+    @Column
+    private String totalReview;
+
 
     @Builder
-    public SurveyEntity(UserEntity user, String age, DistrictEntity district, List<String> mood, List<String> advantage,
+    public SurveyEntity(UserEntity user, String userEmail, String age, DistrictEntity district, List<String> mood, List<String> advantage,
                         List<String> disadvantage, Role recommendGender, String recommendAge, String recommendHousing,
-                        String star, String review,String gptReview){
+                        String star, String review,String gptReview, String totalReview){
         this.user = user;
+        this.userEmail = userEmail;
         this.age = age;
         this.districtEntity = district;
         this.mood = mood;
@@ -78,5 +84,6 @@ public class SurveyEntity {
         this.star = star;
         this.review = review;
         this.gptReview = gptReview;
+        this.totalReview = totalReview;
     }
 }

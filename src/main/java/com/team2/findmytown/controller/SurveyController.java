@@ -59,12 +59,14 @@ public class SurveyController {
                 recommendRole = Role.FEMALE;
             } else recommendRole = Role.MALE;
 
+            String gptMakeReview = chatGPTService.getGptMakeReview(surveyDTO);
             String additionalReview = surveyDTO.getReview() + " "
                     + surveyDTO.getRecommendAge() + " " + recommendRole.getTitle() + "이고, "
                     + surveyDTO.getRecommendHousing() + " 주거 형태를 찾는다면 추천합니다.";
 
             SurveyEntity survey = SurveyEntity.builder()
                     .user(userEntity)
+                    .userEmail(surveyDTO.getUserEmail())
                     .district(districtEntity)
                     .mood(surveyDTO.getMood())
                     .advantage(surveyDTO.getAdvantage())
@@ -74,8 +76,9 @@ public class SurveyController {
                     .recommendAge(surveyDTO.getRecommendAge())
                     .star(surveyDTO.getStar())
                     .age(surveyDTO.getAge())
-                    .review(additionalReview)
-                    .gptReview(chatGPTService.getChatMakeReview(surveyDTO))
+                    .review(surveyDTO.getReview())
+                    .gptReview(gptMakeReview)
+                    .totalReview(gptMakeReview + additionalReview)
                     .build();
             SurveyEntity registerSurvey = surveyService.createSurveyAnswer(survey);
 
@@ -92,6 +95,7 @@ public class SurveyController {
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
                     .gptReview(registerSurvey.getGptReview())
+                    .totalReview(registerSurvey.getTotalReview())
                     .build();
 
             return ResponseEntity.ok(responseSurveyDTO);

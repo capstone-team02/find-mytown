@@ -175,10 +175,6 @@ public class UserServiceImple implements UserService{
 
      */
 
-    public UserEntity getUserbyEmail(final String email){
-        return userRepository.findByEmail(email);
-    }
-
     public String randomNickname()throws IOException {
         String animal_url = "https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%ED%8F%AC%EC%9C%A0%EB%A5%98";
         String adjective_url = "https://ko.wiktionary.org/wiki/%EB%B6%84%EB%A5%98:%ED%95%9C%EA%B5%AD%EC%96%B4_%EA%B4%80%ED%98%95%EC%82%AC%ED%98%95(%ED%98%95%EC%9A%A9%EC%82%AC)";

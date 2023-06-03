@@ -18,7 +18,7 @@ public class ChatGPTService {
         this.chatgptService = chatgptService;
     }
 
-    public String getChatMakeReview(SurveyDTO surveyDTO) {
+    public String getGptMakeReview(SurveyDTO surveyDTO) {
 
         String district = surveyDTO.getDistrict();
         List<String> mood = wordPostProcesser("mood", surveyDTO.getMood());

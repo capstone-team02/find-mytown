@@ -5,6 +5,7 @@ import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.dto.response.ReviewListDTO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,6 +57,33 @@ public class SurveyServiceImpl implements SurveyService{
             guNames.add(gu.get(i).getGuName());
         }
         return guNames;
+    }
+
+    public List<ReviewListDTO> getReviewList() {
+
+        List<SurveyEntity> surveyEntities = surveyRepository.findAll();
+        List<ReviewListDTO> reviewListDTO = new ArrayList<>();
+
+        ReviewListDTO reviewDTO;
+        String getNickname;
+        String getTotalReview;
+
+        if(surveyEntities == null){
+            throw new RuntimeException("can't find survey List.");
+        }
+
+        for (int i = 0; i < surveyEntities.size(); i++) {
+            getNickname = userRepository.findByEmail(surveyEntities.get(0).getUserEmail()).getNickname();
+            getTotalReview = surveyEntities.get(i).getTotalReview();
+
+            reviewDTO = ReviewListDTO.builder()
+                    .nickname(getNickname)
+                    .totalReview(getTotalReview).build();
+
+            reviewListDTO.add(reviewDTO);
+        }
+
+        return reviewListDTO;
     }
 
 }
