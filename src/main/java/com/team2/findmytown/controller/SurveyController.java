@@ -1,21 +1,20 @@
 package com.team2.findmytown.controller;
 
-import com.team2.findmytown.domain.entity.*;
+import com.team2.findmytown.domain.entity.GuAndDistrictNameEntity;
+import com.team2.findmytown.domain.entity.GuEntity;
 import com.team2.findmytown.domain.repository.DistrictRepository;
+import com.team2.findmytown.domain.repository.GuAndDistrictNameRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
-import com.team2.findmytown.dto.request.DistrictNameDTO;
 import com.team2.findmytown.service.ChatGPTService;
 import com.team2.findmytown.service.SurveyServiceImpl;
 import com.team2.findmytown.service.UserServiceImple;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Slf4j
 @RestController
@@ -34,9 +33,12 @@ public class SurveyController {
     private final GuRepository guRepository;
     private final DistrictRepository districtRepository;
 
-    public SurveyController(GuRepository guRepository, DistrictRepository districtRepository) {
+    private final GuAndDistrictNameRepository guAndDistrictNameRepository;
+
+    public SurveyController(GuRepository guRepository, DistrictRepository districtRepository, GuAndDistrictNameRepository guAndDistrictNameRepository) {
         this.guRepository = guRepository;
         this.districtRepository = districtRepository;
+        this.guAndDistrictNameRepository = guAndDistrictNameRepository;
     }
 
 //    @PostMapping("/survey")
@@ -109,10 +111,17 @@ public class SurveyController {
 //    }
 
 
+    @GetMapping("/districtNames")
+    public ResponseEntity<?> getDongNames() {
+        log.info("DistrictNames called");
 
-    @GetMapping("/dongNames")
-    public ResponseEntity<?> getDongNames(){
-        return ResponseEntity.ok(surveyService.districtNames());
+        return ResponseEntity.ok(surveyService.getGuAndDistrict());
+    }
+
+    @GetMapping("/guNames")
+    public ResponseEntity<?> getGuNames() {
+        log.info("DistrictNames called");
+        return ResponseEntity.ok(surveyService.guNames().stream().sorted());
     }
 
 //    @GetMapping("/findDistrict")

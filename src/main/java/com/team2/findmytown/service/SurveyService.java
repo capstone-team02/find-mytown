@@ -6,6 +6,7 @@ import com.team2.findmytown.domain.entity.SurveyEntity;
 import com.team2.findmytown.dto.request.DistrictNameDTO;
 
 import java.util.List;
+import java.util.Map;
 
 public interface SurveyService {
 
@@ -14,5 +15,9 @@ public interface SurveyService {
     public DistrictEntity findDistrictbyName(final String districtName);
 
     public GuEntity findGuEntity(final String guName);
-    public List<DistrictNameDTO> districtNames();
+    public void putGuAndDistrict();
+
+    public List<String> guNames();
+
+    public Map<String, List<String>> getGuAndDistrict();
 }

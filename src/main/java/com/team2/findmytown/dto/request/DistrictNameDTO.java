@@ -5,16 +5,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
 public class DistrictNameDTO {
 
     private String guName;
-    private String dongName;
+    private List<String> dongName;
+    //private String dongName;
 
     @Builder
-    public DistrictNameDTO(String guName, String dongName){
+    public DistrictNameDTO(String guName, List<String> dongName){
         this.guName = guName;
         this.dongName = dongName;
     }

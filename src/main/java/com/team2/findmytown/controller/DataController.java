@@ -6,6 +6,7 @@ import com.team2.findmytown.domain.entity.FacilityEntity;
 import com.team2.findmytown.domain.entity.GuEntity;
 import com.team2.findmytown.domain.entity.PopulationEntity;
 import com.team2.findmytown.service.DataServiceImpl;
+import com.team2.findmytown.service.SurveyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,6 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 
 @Slf4j
@@ -28,14 +28,18 @@ import java.util.Optional;
 public class DataController {
 
     private final DataServiceImpl dataService;
+    private final SurveyService surveyService;
     @Autowired
-    public DataController(DataServiceImpl dataService){
+    public DataController(DataServiceImpl dataService, SurveyService surveyService){
         this.dataService = dataService;
+        this.surveyService = surveyService;
     }
 
 
     @GetMapping("/add-table")
     public ResponseEntity<?> addDistrict() throws IOException {
+        surveyService.putGuAndDistrict();
+
         //인구데이터 적재
         File csv = new File("src/main/resources/동별 연령대 리스트.csv");
        try( BufferedReader br = new BufferedReader(new BufferedReader(new FileReader(csv)))){
