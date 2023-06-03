@@ -110,5 +110,4 @@ public class SurveyServiceImpl implements SurveyService {
         //중복 제거 후 반환
         return keyword.stream().distinct().collect(Collectors.toList());
         }
-
     }

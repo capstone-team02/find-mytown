@@ -1,7 +1,6 @@
 package com.team2.findmytown.controller;
 
-
-import com.team2.findmytown.dto.response.ReviewListDTO;
+import com.team2.findmytown.service.DataServiceImpl;
 import com.team2.findmytown.service.SurveyServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +20,9 @@ public class MainMapController {
     @Autowired
     private SurveyServiceImpl surveyService;
 
+    @Autowired
+    private DataServiceImpl dataService;
+
     @GetMapping("/totalReview")
     public ResponseEntity<?> importTotalReview (@RequestBody Map<String, String> districtName){
         return ResponseEntity.ok(surveyService.getReviewList(districtName.get("district")));
@@ -29,5 +31,10 @@ public class MainMapController {
     @GetMapping("/districtKeyword")
     public ResponseEntity<?> importDistrictKeyword (@RequestBody Map<String, String> distrctName){
         return ResponseEntity.ok(surveyService.getDistrictKeyword(distrctName.get("district")));
+    }
+
+    @GetMapping("/realEstateByDistrict")
+    public ResponseEntity<?> importRealEstate (@RequestBody Map<String, String> districtName){
+        return ResponseEntity.ok(dataService.getRealEstateList(districtName.get("district")));
     }
 }
