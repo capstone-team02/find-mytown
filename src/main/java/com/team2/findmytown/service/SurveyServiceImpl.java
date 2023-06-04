@@ -229,5 +229,6 @@ public class SurveyServiceImpl implements SurveyService {
         }
 
         return surveyEntities;
+        }
     }
 }
