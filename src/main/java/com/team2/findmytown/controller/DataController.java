@@ -38,7 +38,7 @@ public class DataController {
 
     @GetMapping("/add-table")
     public ResponseEntity<?> addDistrict() throws IOException {
-        surveyService.putGuAndDistrict();
+
 
         //인구데이터 적재
         File csv = new File("src/main/resources/동별 연령대 리스트.csv");
@@ -155,6 +155,7 @@ public class DataController {
 
                 dataService.updateFacilityDistractEntity(districtEntity,facilityEntity);
             }
+
 
         }catch (IOException e) {
             e.printStackTrace();

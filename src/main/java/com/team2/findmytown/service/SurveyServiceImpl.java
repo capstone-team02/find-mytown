@@ -28,13 +28,6 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private GuRepository guRepository;
 
-    private final GuAndDistrictNameRepository guAndDistrictNameRepository;
-
-    public SurveyServiceImpl(GuAndDistrictNameRepository guAndDistrictNameRepository) {
-        this.guAndDistrictNameRepository = guAndDistrictNameRepository;
-    }
-
-
     @Override
     public SurveyEntity createSurveyAnswer(SurveyEntity surveyEntity) {
         if (surveyEntity == null) {
@@ -74,61 +67,8 @@ public class SurveyServiceImpl implements SurveyService {
         return guRepository.getByGuName(guName);
     }
 
-    public void putGuAndDistrict() {
-        List<GuEntity> gu = new ArrayList<>();
-        List<String> guNames = new ArrayList<>();
-        //List<String> districtNames = new ArrayList<>();
-        Map<String, String> districtNames = new HashMap<>();
-        Map<Integer, List<String>> districtNamesList = new HashMap<>();
-        List<GuAndDistrictNameEntity> names = new ArrayList<>();
-        //List<District> en = new ArrayList<>();
-
-
-        gu = guRepository.findAll();
-
-
-        DistrictNameDTO districtNameDTO = null;
-        GuAndDistrictNameEntity guAndDistrictNameEntity = null;
-        List<DistrictNameDTO> districtNameList = new ArrayList<>();
-
-        List<DistrictEntity> n = new ArrayList<>();
-
-
-        for (int i = 0; i < gu.size(); i++) {
-            guNames.add(gu.get(i).getGuName().toString());
-
-
-            for (int j = 0; j < gu.get(i).getDistrictEntities().size(); j++) {
-                districtNames.put(gu.get(i).getGuName().toString(), gu.get(i).getDistrictEntities().get(j).getDistrictName().toString());
-                System.out.println(gu.get(i) + " " + gu.get(i).getDistrictEntities().get(j).getDistrictName().toString());
-
-                guAndDistrictNameEntity = GuAndDistrictNameEntity.builder()
-                        .guName(gu.get(i).getGuName().toString())
-                        .dongName(gu.get(i).getDistrictEntities().get(j).getDistrictName().toString())
-                        .guId(gu.get(i).getGuId())
-                        .build();
-
-
-                names.add(guAndDistrictNameEntity);
-
-            }
-            guAndDistrictNameRepository.saveAll(names);
-            for (String key : districtNames.keySet()) {
-                String value = (String) districtNames.get(key);
-
-//                for(int k=0; k< guNames.size();i++){
-//                    if(key.equals(guNames.get(k))){
-//
-//                    }
-            }
-        }
-
-
-    }
-
-
     public List<DistrictNameDTO> getGuAndDistrict() {
-        List<GuAndDistrictNameEntity> list = guAndDistrictNameRepository.findAll();
+        List<DistrictEntity> list = districtRepository.findAll();
         List<GuEntity> guIdList = guRepository.findAll();
         List<Long> guId = new ArrayList<>();
         Map<String, List<String>> districtNameList = new HashMap<>();
@@ -145,8 +85,8 @@ public class SurveyServiceImpl implements SurveyService {
 
             System.out.println("k " + k);
             for (int i = 0; i < list.size(); i++) {
-                if (list.get(i).getGuId() == guId.get(k) || list.get(i).getGuId().equals(guId.get(k))) {
-                    g.add(list.get(i).getDongName());
+                if (list.get(i).getGuEntity().getGuId() == guId.get(k) || list.get(i).getGuEntity().getGuId().equals(guId.get(k))) {
+                    g.add(list.get(i).getDistrictName());
                 }
             }
             districtNameList.put(guRepository.findAllByGuId(guId.get(k)).getGuName(), g);

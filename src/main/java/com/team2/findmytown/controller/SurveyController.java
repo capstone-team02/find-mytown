@@ -2,7 +2,6 @@ package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.domain.repository.DistrictRepository;
-import com.team2.findmytown.domain.repository.GuAndDistrictNameRepository;
 import com.team2.findmytown.domain.repository.GuRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.SurveyDTO;
@@ -34,13 +33,11 @@ public class SurveyController {
     private final GuRepository guRepository;
     private final DistrictRepository districtRepository;
 
-    private final GuAndDistrictNameRepository guAndDistrictNameRepository;
 
-    public SurveyController(UserRepository userRepository, GuRepository guRepository, DistrictRepository districtRepository, GuAndDistrictNameRepository guAndDistrictNameRepository) {
+    public SurveyController(UserRepository userRepository, GuRepository guRepository, DistrictRepository districtRepository) {
         this.userRepository = userRepository;
         this.guRepository = guRepository;
         this.districtRepository = districtRepository;
-        this.guAndDistrictNameRepository = guAndDistrictNameRepository;
     }
 
     @PostMapping("/surveyAnswer")
@@ -117,8 +114,10 @@ public class SurveyController {
     public ResponseEntity<?> getDongNames() {
         log.info("DistrictNames called");
 
+
         return ResponseEntity.ok(surveyService.getGuAndDistrict());
     }
+
 
     @GetMapping("/guNames")
     public ResponseEntity<?> getGuNames() {

@@ -18,6 +18,4 @@ public interface GuRepository extends JpaRepository<GuEntity, Long> {
 
    List<GuEntity> findGuEntityBy();
 
-
-
 }

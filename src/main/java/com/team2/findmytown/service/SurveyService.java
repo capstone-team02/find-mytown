@@ -15,7 +15,6 @@ public interface SurveyService {
     public DistrictEntity findDistrict(final String districtName);
     public UserEntity findUser(final String email);
     public List<String> findGuNames();
-    public void putGuAndDistrict();
 
     public List<String> guNames();
 
