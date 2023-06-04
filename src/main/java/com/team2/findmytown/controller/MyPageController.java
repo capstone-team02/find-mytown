@@ -74,10 +74,16 @@ public class MyPageController {
         }
     }
 
-    @GetMapping("/chatHistory")
-    public ResponseEntity chatHistory(@RequestBody Map<String, String> userEmail){
-        return ResponseEntity.ok().body(mypageService.importChatHistoryList(userEmail.get("userEmail")));
+    @PostMapping("/chatHistory")
+    public ResponseEntity chatHistory(@RequestBody Map<String, String> email){
+        return ResponseEntity.ok().body(mypageService.importChatHistoryList(email.get("userEmail")));
     }
+
+    @PostMapping("/mySurvey")
+    public ResponseEntity mySurvey(@RequestBody Map<String, String> email){
+        return ResponseEntity.ok().body(mypageService.importMySurvey(email.get("email")));
+    }
+
 
 
     // 비밀번호 찾기 : 임시 비밀번호 발급 및 변경 처리

@@ -1,27 +1,32 @@
 package com.team2.findmytown.service;
 
-import com.team2.findmytown.config.SecurityUtil;
 import com.team2.findmytown.domain.entity.ChatHistoryEntity;
 import com.team2.findmytown.domain.entity.UserEntity;
+import com.team2.findmytown.domain.entity.SurveyEntity;
 import com.team2.findmytown.domain.repository.ChatHistoryRepository;
+import com.team2.findmytown.domain.repository.SurveyRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ChatHistoryDTO;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.security.Key;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @Slf4j
 @Service
-public class MypageServiceImpl {
+public class MypageServiceImpl implements MypageService{
     @Autowired
     private ChatHistoryRepository chatHistoryRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SurveyRepository surveyRepository;
 
     public List<ChatHistoryDTO> importChatHistoryList(String userEmail) {
 
@@ -45,5 +50,17 @@ public class MypageServiceImpl {
             }
             return chatHistoryList;
         }
+    }
+
+    public Map<String, String> importMySurvey(String email){
+
+        Map<String, String> mySurvey = new HashMap<>();
+        SurveyEntity surveyEntity = surveyRepository.findAllByUserEmail(email);
+
+        mySurvey.put("star", surveyEntity.getStar());
+        mySurvey.put("review", surveyEntity.getReview());
+        mySurvey.put("totalReview", surveyEntity.getTotalReview());
+
+        return mySurvey;
     }
 }
