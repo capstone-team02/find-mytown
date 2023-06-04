@@ -21,17 +21,17 @@ public class MainMapController {
     private DataServiceImpl dataService;
 
     @PostMapping("/totalReview")
-    public ResponseEntity<?> importTotalReview (@RequestBody Map<String, String> districtName){
-        return ResponseEntity.ok(surveyService.getReviewList(districtName.get("district")));
+    public ResponseEntity<?> importTotalReview (@RequestParam(value = "district") String districtName){
+        return ResponseEntity.ok(surveyService.getReviewList(districtName));
     }
 
     @PostMapping("/districtKeyword")
-    public ResponseEntity<?> importDistrictKeyword (@RequestBody Map<String, String> distrctName){
-        return ResponseEntity.ok(surveyService.getDistrictKeyword(distrctName.get("district")));
+    public ResponseEntity<?> importDistrictKeyword (@RequestParam(value = "district") String districtName){
+        return ResponseEntity.ok(surveyService.getDistrictKeyword(districtName));
     }
 
     @PostMapping("/realEstateByDistrict")
-    public ResponseEntity<?> importRealEstate (@RequestBody Map<String, String> districtName){
-        return ResponseEntity.ok(dataService.getRealEstateList(districtName.get("district")));
+    public ResponseEntity<?> importRealEstate (@RequestParam(value = "district") String districtName){
+        return ResponseEntity.ok(dataService.getRealEstateList(districtName));
     }
 }

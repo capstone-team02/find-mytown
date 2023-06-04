@@ -1,9 +1,6 @@
 package com.team2.findmytown.service;
 
-import com.team2.findmytown.domain.entity.DistrictEntity;
-import com.team2.findmytown.domain.entity.GuAndDistrictNameEntity;
-import com.team2.findmytown.domain.entity.GuEntity;
-import com.team2.findmytown.domain.entity.SurveyEntity;
+import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.domain.repository.*;
 import com.team2.findmytown.dto.request.DistrictNameDTO;
 import com.team2.findmytown.dto.response.ReviewListDTO;
@@ -50,6 +47,21 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
+    public DistrictEntity findDistrict(String districtName) {
+        return null;
+    }
+
+    @Override
+    public UserEntity findUser(String email) {
+        return null;
+    }
+
+    @Override
+    public List<String> findGuNames() {
+        return null;
+    }
+
+
     public DistrictEntity findDistrictbyName(String districtName) {
         return null;
     }
@@ -231,4 +243,3 @@ public class SurveyServiceImpl implements SurveyService {
         return surveyEntities;
         }
     }
-}
