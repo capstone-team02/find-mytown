@@ -36,13 +36,14 @@ public class UserController {
 
 
     @PostMapping("/checkEmail") //중복체크
-    public ResponseEntity<?>checkEmail(@RequestBody String email){
+    public ResponseEntity<?>checkEmail(@RequestParam("email") String email){
         Boolean check = userService.checkEmail(email);
+        System.out.println("email : "+email);
         return ResponseEntity.ok(check);
     }
 
     @PostMapping("/checkNickname")
-    public ResponseEntity<?>checkNickname(@RequestBody String nickname){
+    public ResponseEntity<?>checkNickname(@RequestParam("nickname") String nickname){
         Boolean check = userService.checkNickName(nickname);
         return ResponseEntity.ok(check);
     }
