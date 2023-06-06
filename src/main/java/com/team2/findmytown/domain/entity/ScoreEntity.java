@@ -76,6 +76,10 @@ public class ScoreEntity {
     @Column(name = "cafe_rank")
     private int cafeRank;
 
+    @OneToOne(mappedBy = "scoreEntity")
+    private DistrictEntity districtEntity;
+
+
 
 
 }

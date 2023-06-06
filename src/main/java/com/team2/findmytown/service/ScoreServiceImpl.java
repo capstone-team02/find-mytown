@@ -39,13 +39,17 @@ public class ScoreServiceImpl implements ScoreService {
     public void calculateAndSaveScores() {
         List<PopulationEntity> recordList = populationRepository.findDensitysOrderedByDescending();
         List<ScoreEntity> scoreEntities = new ArrayList<>();
-        List<FacilityEntity> facilityEntities = new ArrayList<>();
-        int rank = 1;
+        List<FacilityEntity> facilityEntities = facilityRepository.findFacilityEntitiesByDescending();
+        int populationRank = 1;
+        int facilityRank = 1;
+
+
+        //List<ScoreEntity> scoreEntities = new ArrayList<>();
 
         for (PopulationEntity density : recordList) {
             ScoreEntity scoreEntity = new ScoreEntity();
-            scoreEntity.setDensityRank(rank++);
-            setRankValues(scoreEntity, density);
+            scoreEntity.setDensityRank(populationRank++);
+            setPopulationRankValues(scoreEntity, density);
             scoreEntities.add(scoreEntity);
 
             DistrictEntity districtEntity = density.getDistrictEntity();
@@ -55,6 +59,21 @@ public class ScoreServiceImpl implements ScoreService {
         scoreRepository.saveAll(scoreEntities);
         districtRepository.saveAll(recordList.stream().map(PopulationEntity::getDistrictEntity).collect(Collectors.toList()));
 
+        for (FacilityEntity facility : facilityEntities) {
+            DistrictEntity districtEntity = facility.getDistrictEntity();
+            ScoreEntity findScoreEntity = districtEntity.getScoreEntity();
+
+            if (findScoreEntity == null) {
+                findScoreEntity = new ScoreEntity();
+                districtEntity.setScoreEntity(findScoreEntity);
+            }
+
+            findScoreEntity.setBankRank(facilityRank++);
+            // 다른 랭크 값들도 설정해줘야 함
+
+            scoreRepository.save(findScoreEntity);
+            districtRepository.save(districtEntity);
+        }
 
 
 
@@ -63,13 +82,28 @@ public class ScoreServiceImpl implements ScoreService {
 
 
 
-    private void setRankValues(ScoreEntity scoreEntity, PopulationEntity populationEntity) {
+    private void setPopulationRankValues(ScoreEntity scoreEntity, PopulationEntity populationEntity) {
         try {
             Field[] fields = ScoreEntity.class.getDeclaredFields();
             for (Field field : fields) {
                 if (field.getName().endsWith("Rank")) {
                     field.setAccessible(true);
-                    int rankValue = getRankValue(field.getName(), populationEntity);
+                    int rankValue = getPopulationRankValue(field.getName(), populationEntity);
+                    field.set(scoreEntity, rankValue);
+                }
+            }
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+/*
+    private void setFacilityRankValues(ScoreEntity scoreEntity, FacilityEntity facilityEntity) {
+        try {
+            Field[] fields = ScoreEntity.class.getDeclaredFields();
+            for (Field field : fields) {
+                if (field.getName().endsWith("Rank")) {
+                    field.setAccessible(true);
+                    int rankValue = getFacilityRankValue(field.getName(), populationEntity);
                     field.set(scoreEntity, rankValue);
                 }
             }
@@ -78,7 +112,39 @@ public class ScoreServiceImpl implements ScoreService {
         }
     }
 
-    private int getRankValue(String fieldName, PopulationEntity populationEntity) {
+ */
+    private int getFacilityRankValue(String fieldName, PopulationEntity populationEntity) {
+        switch (fieldName) {
+            case "densityRank":
+                // 밀집도에 대한 순위 계산 로직 추가
+                return calculateDensityRank(populationEntity);
+            case "childrenRank":
+                // 어린이에 대한 순위 계산 로직 추가
+                return calculateChildrenRank(populationEntity);
+            case "teenRank":
+                // 어린이에 대한 순위 계산 로직 추가
+                return calculateTeenRank(populationEntity);
+            case "twentyRank":
+                return calculateTwentyRank(populationEntity);
+            case "thirtyRank":
+                return calculateThirtyRank(populationEntity);
+            case "fourtyRank":
+                return calculateFourtyRank(populationEntity);
+            case "fifSixRank":
+                return calculateFifSix(populationEntity);
+            case "elderRank":
+                return calculateElder(populationEntity);
+            case "foriegnRank":
+                return calculateForiegn(populationEntity);
+
+
+
+            default:
+                return 0;
+        }
+    }
+
+    private int getPopulationRankValue(String fieldName, PopulationEntity populationEntity) {
         switch (fieldName) {
             case "densityRank":
                 // 밀집도에 대한 순위 계산 로직 추가
