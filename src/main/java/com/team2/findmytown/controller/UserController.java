@@ -9,6 +9,7 @@ import com.team2.findmytown.security.TokenProvider;
 import com.team2.findmytown.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -36,16 +37,17 @@ public class UserController {
 
 
     @PostMapping("/checkEmail") //중복체크
-    public ResponseEntity<?>checkEmail(@RequestParam("email") String email){
+    public ResponseEntity<?>checkEmail(@RequestBody String email){
         Boolean check = userService.checkEmail(email);
-        System.out.println("email : "+email);
-        return ResponseEntity.ok(check);
+        if(check){return ResponseEntity.ok(HttpStatus.OK);}
+        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/checkNickname")
-    public ResponseEntity<?>checkNickname(@RequestParam("nickname") String nickname){
+    public ResponseEntity<?>checkNickname(@RequestBody String nickname){
         Boolean check = userService.checkNickName(nickname);
-        return ResponseEntity.ok(check);
+        if(check){return ResponseEntity.ok(HttpStatus.OK);}
+        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
     }
 
 
