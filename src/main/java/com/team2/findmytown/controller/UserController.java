@@ -2,6 +2,7 @@ package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.Role;
 import com.team2.findmytown.domain.entity.UserEntity;
+import com.team2.findmytown.dto.request.EmailDTO;
 import com.team2.findmytown.dto.request.MailDTO;
 import com.team2.findmytown.dto.request.UserDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
@@ -37,16 +38,18 @@ public class UserController {
 
 
     @PostMapping("/checkEmail") //중복체크
-    public ResponseEntity<?>checkEmail(@RequestBody String email){
-        Boolean check = userService.checkEmail(email);
+    public ResponseEntity<?>checkEmail(@RequestBody EmailDTO emailDTO){
+        Boolean check = userService.checkEmail(emailDTO.getEmail());
+        log.info("email {}",check);
         if(check){return ResponseEntity.ok(HttpStatus.OK);}
-        return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
+        else{
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);}
     }
 
     @PostMapping("/checkNickname")
     public ResponseEntity<?>checkNickname(@RequestBody String nickname){
         Boolean check = userService.checkNickName(nickname);
-        if(check){return ResponseEntity.ok(HttpStatus.OK);}
+        if(!check){return ResponseEntity.ok(HttpStatus.OK);}
         return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
     }
 
