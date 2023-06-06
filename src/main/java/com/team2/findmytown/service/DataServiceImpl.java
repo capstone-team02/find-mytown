@@ -92,8 +92,12 @@ public class DataServiceImpl implements DataService {
         List<RealEstateEntity> realEstateEntities = new ArrayList<RealEstateEntity>();
         RealEstateDTO realEstateDTO;
         RealEstateEntity realEstate;
+        System.out.println("district in function : " + district);
 
         realEstateEntities = realEstateRepository.findAllByDongName(district);
+
+        System.out.println("Size : " + realEstateEntities.size());
+
 
         for(int i = 0; i < realEstateEntities.size(); i++) {
             realEstate = realEstateEntities.get(i);
@@ -106,7 +110,7 @@ public class DataServiceImpl implements DataService {
                     .houseType(realEstate.getHouseType())
                     .price(realEstate.getPrice())
                     .saleType(realEstate.getSaleType()).build();
-
+            System.out.println("realEstate " + realEstate.getBuildingName());
             realEstateList.add(realEstateDTO);
         }
         return realEstateList;

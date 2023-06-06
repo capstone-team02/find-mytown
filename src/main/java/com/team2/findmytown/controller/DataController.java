@@ -6,9 +6,11 @@ import com.team2.findmytown.domain.entity.FacilityEntity;
 import com.team2.findmytown.domain.entity.GuEntity;
 import com.team2.findmytown.domain.entity.PopulationEntity;
 import com.team2.findmytown.service.DataServiceImpl;
+import com.team2.findmytown.service.RealEstateService;
 import com.team2.findmytown.service.SurveyService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,10 +31,13 @@ public class DataController {
 
     private final DataServiceImpl dataService;
     private final SurveyService surveyService;
+
+    private final RealEstateService realEastateService;
     @Autowired
-    public DataController(DataServiceImpl dataService, SurveyService surveyService){
+    public DataController(DataServiceImpl dataService, SurveyService surveyService, RealEstateService realEastateService){
         this.dataService = dataService;
         this.surveyService = surveyService;
+        this.realEastateService = realEastateService;
     }
 
 
@@ -169,5 +174,12 @@ public class DataController {
 
         return ResponseEntity.ok().build();
 
+    }
+
+
+    @GetMapping("/realEstate")
+    public ResponseEntity<?> addRealEstate(){
+      realEastateService.trade();
+      return ResponseEntity.ok(HttpStatus.OK);
     }
 }

@@ -1,9 +1,7 @@
 package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
-import com.team2.findmytown.domain.repository.DistrictRepository;
-import com.team2.findmytown.domain.repository.GuRepository;
-import com.team2.findmytown.domain.repository.UserRepository;
+import com.team2.findmytown.domain.repository.*;
 import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.service.ChatGPTService;
@@ -29,21 +27,33 @@ public class SurveyController {
     private UserServiceImple userService;
 
     private final UserRepository userRepository;
-
+    @Autowired
     private final GuRepository guRepository;
+    @Autowired
     private final DistrictRepository districtRepository;
+    @Autowired
+    private final SurveyMoodRepository surveyMoodRepository;
+
+    private final SurveyAdvantageRepository surveyAdvantageRepository;
+
+    private final SurveyDisadvantageRepository surveyDisadvantageRepository;
 
 
-    public SurveyController(UserRepository userRepository, GuRepository guRepository, DistrictRepository districtRepository) {
+
+
+
+    public SurveyController(UserRepository userRepository, GuRepository guRepository, DistrictRepository districtRepository, SurveyMoodRepository surveyMoodRepository, SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository) {
         this.userRepository = userRepository;
         this.guRepository = guRepository;
         this.districtRepository = districtRepository;
+        this.surveyMoodRepository = surveyMoodRepository;
+        this.surveyAdvantageRepository = surveyAdvantageRepository;
+        this.surveyDisadvantageRepository = surveyDisadvantageRepository;
     }
 
     @PostMapping("/surveyAnswer")
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
-
             UserEntity userEntity = userRepository.findByEmail(surveyDTO.getUserEmail());
             DistrictEntity districtEntity = districtRepository.findByDistrictName(surveyDTO.getDistrict());
             Role recommendRole;
@@ -63,6 +73,7 @@ public class SurveyController {
             } else recommendRole = Role.MALE;
 
             String gptMakeReview = chatGPTService.getGptMakeReview(surveyDTO);
+
             String additionalReview = surveyDTO.getReview() + " "
                     + surveyDTO.getRecommendAge() + " " + recommendRole.getTitle() + "이고, "
                     + surveyDTO.getRecommendHousing() + " 주거 형태를 찾는다면 추천합니다.";
@@ -125,9 +136,24 @@ public class SurveyController {
         return ResponseEntity.ok(surveyService.guNames().stream().sorted());
     }
 
-//    @GetMapping("/findDistrict")
-//    public DistrictEntity findDistrict(@RequestBody String district){
-//        return surveyService.findDistrictbyName(district);
-//    }
+
+    @GetMapping("/moodEntities")
+    public ResponseEntity<?> getMoods() {
+        log.info("mood called");
+        return ResponseEntity.ok(surveyMoodRepository.findAll());
+    }
+
+    @GetMapping("/disadvantageEntities")
+    public ResponseEntity<?> getDisadvantages() {
+        log.info("disadvantage called");
+        return ResponseEntity.ok(surveyDisadvantageRepository.findAll());
+    }
+
+    @GetMapping("/advantageEntities")
+    public ResponseEntity<?> getAdvantages() {
+        log.info("advantage called");
+        return ResponseEntity.ok(surveyAdvantageRepository.findAll());
+    }
+
 
 }

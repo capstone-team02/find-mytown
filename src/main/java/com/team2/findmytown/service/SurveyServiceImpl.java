@@ -158,7 +158,7 @@ public class SurveyServiceImpl implements SurveyService {
 
         List<String> keyword = new ArrayList<>();
         List<SurveyEntity> surveyEntities = findSurveyByDistrict(district);
-
+        System.out.println(surveyEntities.get(1).getMood());
         for (int i = 0; i < surveyEntities.size(); i++) {
             keyword.addAll(surveyEntities.get(i).getMood());
             keyword.addAll(surveyEntities.get(i).getAdvantage());
