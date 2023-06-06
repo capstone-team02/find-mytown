@@ -28,6 +28,18 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     private GuRepository guRepository;
 
+    private final SurveyAdvantageRepository surveyAdvantageRepository;
+
+    private final SurveyDisadvantageRepository surveyDisadvantageRepository;
+
+    private final SurveyMoodRepository surveyMoodRepository;
+
+    public SurveyServiceImpl(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository) {
+        this.surveyAdvantageRepository = surveyAdvantageRepository;
+        this.surveyDisadvantageRepository = surveyDisadvantageRepository;
+        this.surveyMoodRepository = surveyMoodRepository;
+    }
+
     @Override
     public SurveyEntity createSurveyAnswer(SurveyEntity surveyEntity) {
         if (surveyEntity == null) {
@@ -142,7 +154,7 @@ public class SurveyServiceImpl implements SurveyService {
         String getTotalReview;
 
         for (int i = 0; i < surveyEntities.size(); i++) {
-            getNickname = userRepository.findByEmail(surveyEntities.get(0).getUserEmail()).getNickname();
+            getNickname = userRepository.findByEmail(surveyEntities.get(i).getUserEmail()).getNickname();
             getTotalReview = surveyEntities.get(i).getTotalReview();
 
             reviewDTO = ReviewListDTO.builder()
@@ -159,14 +171,32 @@ public class SurveyServiceImpl implements SurveyService {
         List<String> keyword = new ArrayList<>();
         List<SurveyEntity> surveyEntities = findSurveyByDistrict(district);
         System.out.println(surveyEntities.get(1).getMood());
+        List<String> moodList = new ArrayList<>();
+        List<String> advantageList = new ArrayList<>();
+        List<String> disadvantageList = new ArrayList<>();
+
         for (int i = 0; i < surveyEntities.size(); i++) {
-            keyword.addAll(surveyEntities.get(i).getMood());
-            keyword.addAll(surveyEntities.get(i).getAdvantage());
-            keyword.addAll(surveyEntities.get(i).getDisadvantage());
+
+            moodList.addAll(surveyEntities.get(i).getMood());
+            advantageList.addAll(surveyEntities.get(i).getAdvantage());
+            disadvantageList.addAll(surveyEntities.get(i).getDisadvantage());
         }
+        ;
+        advantageList.stream().distinct().collect(Collectors.toList());
+
+       for(int i =0 ; i<2;i++){
+           keyword.add(surveyMoodRepository.findByMoodEn(moodList.stream().distinct().collect(Collectors.toList()).get(i)).getMoodKor());
+           keyword.add(surveyAdvantageRepository.findByAdvantageEn(advantageList.stream().distinct().collect(Collectors.toList()).get(i)).getAdvantageKor());
+           keyword.add(surveyDisadvantageRepository.findByDisadvantageEn(disadvantageList.stream().distinct().collect(Collectors.toList()).get(i)).getDisadvantageKor());
+       }
+
+
+        System.out.println("moodList " + moodList);
+        System.out.println("advantageList " + advantageList);
+        System.out.println("disadvantageList " + disadvantageList);
 
         //중복 제거 후 반환
-        return keyword.stream().distinct().collect(Collectors.toList());
+        return keyword;
     }
 
     public List<SurveyEntity> findSurveyByDistrict(String district){
