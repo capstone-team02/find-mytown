@@ -1,8 +1,13 @@
 package com.team2.findmytown.service;
 
-import com.team2.findmytown.domain.entity.*;
-import com.team2.findmytown.domain.repository.*;
-import com.team2.findmytown.dto.response.RealEstateDTO;
+import com.team2.findmytown.domain.entity.DistrictEntity;
+import com.team2.findmytown.domain.entity.FacilityEntity;
+import com.team2.findmytown.domain.entity.GuEntity;
+import com.team2.findmytown.domain.entity.PopulationEntity;
+import com.team2.findmytown.domain.repository.DistrictRepository;
+import com.team2.findmytown.domain.repository.FacilityRepository;
+import com.team2.findmytown.domain.repository.GuRepository;
+import com.team2.findmytown.domain.repository.PopulationRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,15 +25,18 @@ public class DataServiceImpl implements DataService {
     private final PopulationRepository populationRepository;
     private final FacilityRepository facilityRepository;
     private final RealEstateRepository realEstateRepository;
+    private final MedicalRepository medicalRepository;
 
    @Autowired
     public DataServiceImpl(GuRepository guRepository, DistrictRepository districtRepository,
                            PopulationRepository populationRepository, FacilityRepository facilityRepository, RealEstateRepository realEstateRepository) {
+    public DataServiceImpl(GuRepository guRepository, DistrictRepository districtRepository, PopulationRepository populationRepository, FacilityRepository facilityRepository, MedicalRepository medicalRepository) {
         this.guRepository = guRepository;
         this.districtRepository = districtRepository;
         this.populationRepository = populationRepository;
         this.facilityRepository = facilityRepository;
         this.realEstateRepository = realEstateRepository;
+        this.medicalRepository = medicalRepository;
     }
 
 
@@ -44,6 +52,11 @@ public class DataServiceImpl implements DataService {
 
     public GuEntity findGu(String guName){
        return guRepository.getByGuName(guName);
+    }
+
+    public MedicalEntity createMedical(MedicalEntity medicalEntity){
+       medicalRepository.save(medicalEntity);
+       return medicalRepository.findByHospital(medicalEntity.getHospital());
     }
 
     //동 데이터 저장
