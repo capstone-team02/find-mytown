@@ -19,22 +19,33 @@ public class FacilityEntity {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long facilityId;
 
-
     @Column(name = "bank")
-    private long bank; //은행
-
+    private int bank; //은행
 
     @Column(name="shopping_center")
-    private long shoppingCenter; //쇼핑센터, 마트
+    private int shoppingCenter; //쇼핑센터, 마트
 
     @Column(name = "education")
-    private long education; //교육기관
+    private int education; //교육기관
 
 
-    //음식점
-    @OneToOne
-    @JoinColumn(name="restaurant_Id")
-    private RestaurantEntity restaurantEntity;
+    @Column(name="parking")
+    private int parking; //주차장
+
+    @Column(name="culture")
+    private int culture; //예술, 문화 시설
+
+    @Column(name = "childcare")
+    private int childcare; // 보육시설
+
+    @Column(name="restaurant")
+    private int restaurant;
+
+    @Column(name = "cafe")
+    private int cafe;
+
+
+
 
 
 

@@ -19,6 +19,10 @@ public class PopulationEntity { //인구
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long populationId;
 
+    //인구 밀집도
+    @Column(name="density")
+    private long density;
+
     //어린이 0~10살
     @Column(name = "children")
     private long children;
@@ -52,8 +56,9 @@ public class PopulationEntity { //인구
     private long forign;
 
 
+
     @Builder
-    public PopulationEntity(long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long forign) {
+    public PopulationEntity(long density,long children, long teen, long twenty, long thirty, long fourty, long fifSix, long elder, long forign) {
         this.children = children;
         this.teen = teen;
         this.twenty = twenty;
@@ -62,6 +67,7 @@ public class PopulationEntity { //인구
         this.fifSix = fifSix;
         this.elder = elder;
         this.forign = forign;
+        this.density = density;
     }
 }
 
