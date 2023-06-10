@@ -1,10 +1,7 @@
 package com.team2.findmytown.controller;
 
 
-import com.team2.findmytown.domain.entity.DistrictEntity;
-import com.team2.findmytown.domain.entity.FacilityEntity;
-import com.team2.findmytown.domain.entity.GuEntity;
-import com.team2.findmytown.domain.entity.PopulationEntity;
+import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.service.DataServiceImpl;
 import com.team2.findmytown.service.RealEstateService;
 import com.team2.findmytown.service.SurveyService;

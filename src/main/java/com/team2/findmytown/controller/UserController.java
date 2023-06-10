@@ -8,6 +8,8 @@ import com.team2.findmytown.dto.request.MailDTO;
 import com.team2.findmytown.dto.request.UserDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.security.TokenProvider;
+import com.team2.findmytown.service.EmailSenderService;
+import com.team2.findmytown.service.SurveyService;
 import com.team2.findmytown.service.UserServiceImple;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,13 +29,13 @@ public class UserController {
     private UserServiceImple userService;
 
     @Autowired
-    private SurveyServiceImpl surveyService;
+    private SurveyService surveyService;
 
     @Autowired
     private TokenProvider tokenProvider;
 
     @Autowired
-    private EmailSenderServiceImpl emailSenderService;
+    private EmailSenderService emailSenderService;
 
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
