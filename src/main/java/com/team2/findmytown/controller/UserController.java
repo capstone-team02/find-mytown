@@ -25,7 +25,6 @@ public class UserController {
     private TokenProvider tokenProvider;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
     @PostMapping("/checkEmail") //중복체크
     public ResponseEntity<?>checkEmail(@RequestBody String email){
         Boolean check = userService.checkEmail(email);
@@ -56,7 +55,7 @@ public class UserController {
                     .email(userDTO.getEmail())
                     .username(userDTO.getUsername())
                     .role(userRole)
-                    .nickname(userService.randomNickname())
+                    .nickname(userDTO.getNickname())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .build();
 
@@ -68,6 +67,7 @@ public class UserController {
                     .email(registerUser.getEmail())
                     .id(registerUser.getId())
                     .role(userRole)
+                    .nickname(registerUser.getNickname())
                     .username(registerUser.getUsername())
                     .build();
             //return ResponseEntity.ok().body(responseUserDTO);
