@@ -54,6 +54,9 @@ public class ScoreServiceImpl implements ScoreService {
 
             DistrictEntity districtEntity = density.getDistrictEntity();
             districtEntity.setScoreEntity(scoreEntity);
+
+            scoreRepository.save(scoreEntity); // 수정: scoreEntity 저장
+            districtRepository.save(districtEntity);
         }
 
         scoreRepository.saveAll(scoreEntities);
@@ -71,6 +74,7 @@ public class ScoreServiceImpl implements ScoreService {
             findScoreEntity.setBankRank(facilityRank++);
             // 다른 랭크 값들도 설정해줘야 함
 
+             setFacilityRankValues(findScoreEntity,facility);
             scoreRepository.save(findScoreEntity);
             districtRepository.save(districtEntity);
         }
@@ -96,14 +100,16 @@ public class ScoreServiceImpl implements ScoreService {
             e.printStackTrace();
         }
     }
-/*
+
+
+
     private void setFacilityRankValues(ScoreEntity scoreEntity, FacilityEntity facilityEntity) {
         try {
             Field[] fields = ScoreEntity.class.getDeclaredFields();
             for (Field field : fields) {
                 if (field.getName().endsWith("Rank")) {
                     field.setAccessible(true);
-                    int rankValue = getFacilityRankValue(field.getName(), populationEntity);
+                    int rankValue = getFacilityRankValue(field.getName(), facilityEntity);
                     field.set(scoreEntity, rankValue);
                 }
             }
@@ -112,33 +118,25 @@ public class ScoreServiceImpl implements ScoreService {
         }
     }
 
- */
-    private int getFacilityRankValue(String fieldName, PopulationEntity populationEntity) {
+
+    private int getFacilityRankValue(String fieldName, FacilityEntity facilityEntity) {
         switch (fieldName) {
-            case "densityRank":
-                // 밀집도에 대한 순위 계산 로직 추가
-                return calculateDensityRank(populationEntity);
-            case "childrenRank":
-                // 어린이에 대한 순위 계산 로직 추가
-                return calculateChildrenRank(populationEntity);
-            case "teenRank":
-                // 어린이에 대한 순위 계산 로직 추가
-                return calculateTeenRank(populationEntity);
-            case "twentyRank":
-                return calculateTwentyRank(populationEntity);
-            case "thirtyRank":
-                return calculateThirtyRank(populationEntity);
-            case "fourtyRank":
-                return calculateFourtyRank(populationEntity);
-            case "fifSixRank":
-                return calculateFifSix(populationEntity);
-            case "elderRank":
-                return calculateElder(populationEntity);
-            case "foriegnRank":
-                return calculateForiegn(populationEntity);
-
-
-
+            case "educationRank":
+                return calculateEducationRank(facilityEntity);
+            case"shoppingCenterRank":
+                return caculateShoppingCenterRank(facilityEntity);
+            case"parkingRank":
+                return calculateParkingRank(facilityEntity);
+            case "cultureRank":
+                return calculateCultureRank(facilityEntity);
+            case "restaurantRank":
+                return calculateRestaurantRank(facilityEntity);
+            case "cafeRank":
+                    return calculateCafeRank(facilityEntity);
+            case "bankRank":
+                return calculateBankRank(facilityEntity);
+            case "childcareRank":
+                return calculateChildcareRank(facilityEntity);
             default:
                 return 0;
         }
@@ -174,7 +172,116 @@ public class ScoreServiceImpl implements ScoreService {
                 return 0;
         }
     }
+    private int calculateEducationRank(FacilityEntity facilityEntity){
 
+        Long eduacationCount = Long.valueOf(facilityEntity.getEducation());
+        List<FacilityEntity> educationList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : educationList) {
+            if (entity.getEducation() > eduacationCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+
+    private int calculateBankRank(FacilityEntity facilityEntity){
+
+        Long bankCount = Long.valueOf(facilityEntity.getBank());
+        List<FacilityEntity> bankList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : bankList) {
+            if (entity.getBank() > bankCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+    private int calculateParkingRank(FacilityEntity facilityEntity){
+
+        Long parkingCount = Long.valueOf(facilityEntity.getParking());
+        List<FacilityEntity> parkingList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : parkingList) {
+            if (entity.getParking() > parkingCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+
+
+    private int caculateShoppingCenterRank(FacilityEntity facilityEntity){
+        Long shoppingCenter = Long.valueOf(facilityEntity.getShoppingCenter());
+        List<FacilityEntity> shoppingCenterList = facilityRepository.findAll();
+        int count = 0;
+        for(FacilityEntity entity : shoppingCenterList){
+            if(entity.getShoppingCenter()>shoppingCenter){
+                count++;
+            }
+
+        }
+        return count+1;
+    }
+    private int calculateCultureRank(FacilityEntity facilityEntity){
+
+        Long cultureCount = Long.valueOf(facilityEntity.getCulture());
+        List<FacilityEntity> cultureList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : cultureList) {
+            if (entity.getCulture() > cultureCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+
+    private int calculateChildcareRank(FacilityEntity facilityEntity){
+
+        Long childcareCount = Long.valueOf(facilityEntity.getChildcare());
+        List<FacilityEntity> childcareList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : childcareList) {
+            if (entity.getChildcare() > childcareCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+
+    private int calculateRestaurantRank(FacilityEntity facilityEntity){
+
+        Long restauranteCount = Long.valueOf(facilityEntity.getRestaurant());
+        List<FacilityEntity> restaurantList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : restaurantList) {
+            if (entity.getRestaurant() > restauranteCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
+
+
+    private int calculateCafeRank(FacilityEntity facilityEntity){
+
+        Long cafeCount = Long.valueOf(facilityEntity.getCafe());
+        List<FacilityEntity> cafeList = facilityRepository.findAll();
+        int count = 0;
+        for (FacilityEntity entity : cafeList) {
+            if (entity.getCafe() > cafeCount) {
+                count++;
+            }
+        }
+        return count + 1;
+
+    }
     //인구 밀집도
     private int calculateDensityRank(PopulationEntity populationEntity) {
         Long density = populationEntity.getDensity();
