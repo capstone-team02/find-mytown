@@ -18,13 +18,13 @@ public class SurveyDTO {
     private List<String> mood;
     private List<String> advantage;
     private List<String> disadvantage;
-    private Role recommendGender;
-    private String recommendAge;
-    private String recommendHousing;
     private String age;
     private String star;
     private String review;
-    private Boolean isFemale;
     private String gptReview;
     private String totalReview;
+    //private Role recommendGender;
+    //private String recommendAge;
+    //private String recommendHousing;
+    //private Boolean isFemale;
 }
