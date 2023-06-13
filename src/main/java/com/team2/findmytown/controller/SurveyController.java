@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+
 @Slf4j
 @RestController
 @RequestMapping("/mytown/v1/survey")
@@ -51,6 +52,7 @@ public class SurveyController {
         this.surveyDisadvantageRepository = surveyDisadvantageRepository;
     }
 
+
     @PostMapping("/surveyAnswer")
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
@@ -68,15 +70,19 @@ public class SurveyController {
                 throw new RuntimeException("doesn't exist Area");
             }
 
+            /*
             if (surveyDTO.getIsFemale()==true) {
                 recommendRole = Role.FEMALE;
             } else recommendRole = Role.MALE;
+            */
 
             String gptMakeReview = chatGPTService.getGptMakeReview(surveyDTO);
+            /*
 
             String additionalReview = surveyDTO.getReview() + " "
                     + surveyDTO.getRecommendAge() + " " + recommendRole.getTitle() + "이고, "
                     + surveyDTO.getRecommendHousing() + " 주거 형태를 찾는다면 추천합니다.";
+            */
 
             SurveyEntity survey = SurveyEntity.builder()
                     .user(userEntity)
@@ -85,14 +91,13 @@ public class SurveyController {
                     .mood(surveyDTO.getMood())
                     .advantage(surveyDTO.getAdvantage())
                     .disadvantage(surveyDTO.getDisadvantage())
-                    .recommendGender(recommendRole)
-                    .recommendHousing(surveyDTO.getRecommendHousing())
-                    .recommendAge(surveyDTO.getRecommendAge())
+                    //.recommendGender(recommendRole)
+                    //.recommendHousing(surveyDTO.getRecommendHousing())
+                    //.recommendAge(surveyDTO.getRecommendAge())
                     .star(surveyDTO.getStar())
                     .age(surveyDTO.getAge())
                     .review(surveyDTO.getReview())
-                    .gptReview(gptMakeReview)
-                    .totalReview(gptMakeReview + additionalReview)
+                    .totalReview(gptMakeReview + surveyDTO.getReview())
                     .build();
             SurveyEntity registerSurvey = surveyService.createSurveyAnswer(survey);
 
@@ -102,13 +107,13 @@ public class SurveyController {
                     .mood(registerSurvey.getMood())
                     .advantage(registerSurvey.getAdvantage())
                     .disadvantage(registerSurvey.getDisadvantage())
-                    .recommendGender(registerSurvey.getRecommendGender())
-                    .recommendHousing(registerSurvey.getRecommendHousing())
-                    .recommendAge(registerSurvey.getAge())
+                    //.recommendGender(registerSurvey.getRecommendGender())
+                    //.recommendHousing(registerSurvey.getRecommendHousing())
+                    //.recommendAge(registerSurvey.getAge())
                     .star(registerSurvey.getStar())
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
-                    .gptReview(registerSurvey.getGptReview())
+                    //.gptReview(registerSurvey.getGptReview())
                     .totalReview(registerSurvey.getTotalReview())
                     .build();
 

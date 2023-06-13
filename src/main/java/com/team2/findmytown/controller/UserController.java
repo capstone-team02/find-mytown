@@ -27,10 +27,6 @@ import javax.servlet.http.HttpServletRequest;
 public class UserController {
     @Autowired
     private UserServiceImple userService;
-
-    @Autowired
-    private SurveyService surveyService;
-
     @Autowired
     private TokenProvider tokenProvider;
 

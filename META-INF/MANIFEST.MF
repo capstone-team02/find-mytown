@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Main-Class: FindMytownApplication
+Class-Path: C:\jeeewonkim\find-mytown\src\main\java\com\team2\findmytown\FindMytownApplication.java
+

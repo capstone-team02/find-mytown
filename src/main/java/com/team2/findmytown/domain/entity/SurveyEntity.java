@@ -46,6 +46,7 @@ public class SurveyEntity {
     @ElementCollection
     private List<String> disadvantage = new ArrayList<String>();
 
+    /*
     @Column(name = "recommend_gender")
     private Role recommendGender;
 
@@ -54,23 +55,20 @@ public class SurveyEntity {
 
     @Column(name = "recommend_housing")
     private String recommendHousing;
+     */
 
     private String star;
 
     @Column(length = 50)
     private String review;
 
-    @Column
-    private String gptReview;
-
-    @Column
+    @Column(length = 600)
     private String totalReview;
 
 
     @Builder
     public SurveyEntity(UserEntity user, String userEmail, String age, DistrictEntity district, List<String> mood, List<String> advantage,
-                        List<String> disadvantage, Role recommendGender, String recommendAge, String recommendHousing,
-                        String star, String review,String gptReview, String totalReview){
+                        List<String> disadvantage, String star, String review, String totalReview){
         this.user = user;
         this.userEmail = userEmail;
         this.age = age;
@@ -78,12 +76,8 @@ public class SurveyEntity {
         this.mood = mood;
         this.advantage = advantage;
         this.disadvantage = disadvantage;
-        this.recommendGender = recommendGender;
-        this.recommendAge = recommendAge;
-        this.recommendHousing = recommendHousing;
         this.star = star;
         this.review = review;
-        this.gptReview = gptReview;
         this.totalReview = totalReview;
     }
 }

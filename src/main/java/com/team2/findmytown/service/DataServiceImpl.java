@@ -3,6 +3,7 @@ package com.team2.findmytown.service;
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.domain.repository.*;
 import com.team2.findmytown.dto.response.RealEstateDTO;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,8 +23,10 @@ public class DataServiceImpl implements DataService {
     private final RealEstateRepository realEstateRepository;
     private final MedicalRepository medicalRepository;
 
+
    @Autowired
-      public DataServiceImpl(GuRepository guRepository, RealEstateRepository realEstateRepository,DistrictRepository districtRepository, PopulationRepository populationRepository, FacilityRepository facilityRepository, MedicalRepository medicalRepository) {
+    public DataServiceImpl(GuRepository guRepository, DistrictRepository districtRepository, PopulationRepository populationRepository,
+                           RealEstateRepository realEstateRepository, FacilityRepository facilityRepository, MedicalRepository medicalRepository) {
         this.guRepository = guRepository;
         this.districtRepository = districtRepository;
         this.populationRepository = populationRepository;

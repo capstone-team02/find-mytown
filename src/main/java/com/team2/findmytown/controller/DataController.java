@@ -1,10 +1,17 @@
 package com.team2.findmytown.controller;
 
+import com.team2.findmytown.domain.entity.DistrictEntity;
+import com.team2.findmytown.domain.entity.FacilityEntity;
+import com.team2.findmytown.domain.entity.GuEntity;
+import com.team2.findmytown.domain.entity.PopulationEntity;
+
+import com.team2.findmytown.domain.entity.*;
 
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.service.DataServiceImpl;
+import com.team2.findmytown.service.PopulationDensityService;
 import com.team2.findmytown.service.RealEstateService;
-import com.team2.findmytown.service.SurveyService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,21 +35,21 @@ import java.util.Optional;
 public class DataController {
 
     private final DataServiceImpl dataService;
-    private final SurveyService surveyService;
 
-    private final RealEstateService realEastateService;
+    private final RealEstateService realEstateService;
+
+    private final PopulationDensityService populationDensityService;
+
     @Autowired
-    public DataController(DataServiceImpl dataService, SurveyService surveyService, RealEstateService realEastateService){
+    public DataController(DataServiceImpl dataService, RealEstateService realEstateService, PopulationDensityService populationDensityService){
         this.dataService = dataService;
-        this.surveyService = surveyService;
-        this.realEastateService = realEastateService;
+        this.realEstateService = realEstateService;
+        this.populationDensityService = populationDensityService;
     }
 
 
     @GetMapping("/add-table")
     public ResponseEntity<?> addDistrict() throws IOException {
-
-
 
         //구 데이터 적재 + 의료시설 데이터
         File gu = new File("src/main/resources/병원 약국 리스트.csv");
@@ -212,9 +219,17 @@ public class DataController {
     }
 
 
+    //인구밀도 .xlsx 적재
+    @GetMapping("/populationDensity")
+    public ResponseEntity excel(){
+        populationDensityService.insertPopulationDensity();
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
     @GetMapping("/realEstate")
     public ResponseEntity<?> addRealEstate(){
-      realEastateService.trade();
+      realEstateService.trade();
       return ResponseEntity.ok(HttpStatus.OK);
     }
+
+
 }
