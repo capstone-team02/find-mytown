@@ -17,7 +17,7 @@ public interface UserService {
 
     public Boolean checkNickName(final String nickName);
 
-    public UserEntity updateUser(final UserDTO userDto, final PasswordEncoder passwordEncoder);
+    public UserEntity updateUser(final String nickname, final String password, final PasswordEncoder passwordEncoder);
 
     public UserDTO isLogin();
 

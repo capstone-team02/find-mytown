@@ -52,6 +52,7 @@ public class EmailSenderServiceImpl implements EmailSenderService{
         UserDTO userDTO = UserDTO.builder()
                 .email(userEmail)
                 .password(tempPw).build();
+        String nickname = null;
 
         if(user == null) {
             throw new RuntimeException("Can not find user info");
@@ -60,7 +61,7 @@ public class EmailSenderServiceImpl implements EmailSenderService{
         }
         else{
             try {
-                user = userService.updateUser(userDTO, passwordEncoder);
+                user = userService.updateUser(nickname, userDTO.getPassword(), passwordEncoder);
                 //user.setPassword(tempPw);
             }catch (Exception e){
                 throw new RuntimeException(e.getMessage());

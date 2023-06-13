@@ -1,5 +1,6 @@
 package com.team2.findmytown.controller;
 
+import com.team2.findmytown.config.SecurityUtil;
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.dto.request.MailDTO;
 import com.team2.findmytown.dto.request.UserDTO;
@@ -32,43 +33,42 @@ public class MyPageController {
     @Autowired
     private MypageServiceImpl mypageService;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
-
+    
     @PutMapping("/userUpdate")
-    public ResponseEntity userUpdate(@RequestBody UserDTO userDTO){
+    public ResponseEntity userUpdate(@RequestBody Map<String, String> change){
+
         ResponseDTO responseDTO;
+        String chngNickname = change.get("nickname");
+        String chngPassword = change.get("password");
 
-
-        //토큰 유효성 검사 후 처리
-        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
+        if (SecurityUtil.getCurrentMemberId() == null){
             responseDTO = ResponseDTO.builder()
-                    .error("Invalid token")
-                    .build();
+                    .error("can't find login Info").build();
             return ResponseEntity.badRequest().body(responseDTO);
-        } else if (userDTO.getPassword() == null && userDTO.getNickname() == null) {
+        }
+        else if (chngNickname == null && chngPassword == null){
             responseDTO = ResponseDTO.builder()
-                    .error("fill the info want to change")
-                    .build();
+                    .error("fill the info want to change").build();
             return ResponseEntity.badRequest().body(responseDTO);
-        } else{
-            UserEntity user = userService.updateUser(userDTO, passwordEncoder);
+        }
+        else {
+            UserEntity user = userService.updateUser(chngNickname, chngPassword, passwordEncoder);
             return ResponseEntity.ok().body(user);
         }
     }
 
     @PutMapping("/userDelete")
-    public ResponseEntity userDelete(@RequestBody UserDTO userDTO) {
+    public ResponseEntity userDelete() {
         ResponseDTO responseDTO;
+        String userId = SecurityUtil.getCurrentMemberId();
 
-        //토큰 유효성 검사 후 처리
-        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
+        if (userId == null){
             responseDTO = ResponseDTO.builder()
-                    .error("Invalid token")
-                    .build();
+                    .error("Can't find login Info").build();
             return ResponseEntity.badRequest().body(responseDTO);
         }else{
-            userService.deleteUser(userDTO.getEmail());
-            return ResponseEntity.ok().body(userDTO);
+            userService.deleteUser();
+            return ResponseEntity.ok().body("success Delete account of " + userId);
         }
     }
 

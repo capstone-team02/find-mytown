@@ -22,7 +22,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.awt.print.Book;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,7 +31,7 @@ import java.util.Random;
 
 @Slf4j
 @Service
-public class UserServiceImple implements UserService{
+public class UserServiceImple implements UserService {
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -43,14 +42,14 @@ public class UserServiceImple implements UserService{
 
     @Override
     public UserEntity createUser(UserEntity userEntity) {
-        if(userEntity == null || userEntity.getEmail() == null ) {
+        if (userEntity == null || userEntity.getEmail() == null) {
             throw new RuntimeException("Invalid arguments");
         }
-        if(userEntity.getPassword() == null){
+        if (userEntity.getPassword() == null) {
             throw new RuntimeException("password must not be null");
         }
         final String email = userEntity.getEmail();
-        if(userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             log.warn("Email already exists {}", email);
             throw new RuntimeException("Email already exists");
         }
@@ -59,13 +58,12 @@ public class UserServiceImple implements UserService{
     }
 
 
-
     @Override
     public UserEntity getByCredentials(final String email, final String password, final PasswordEncoder encoder) {
         final UserEntity originalUser = userRepository.findByEmail(email);
 
         //mathes 메서드를 이용해 패스워드가 같은지 확인
-        if(originalUser != null && encoder.matches(password,originalUser.getPassword())){
+        if (originalUser != null && encoder.matches(password, originalUser.getPassword())) {
             return originalUser;
         }
         return null;
@@ -74,31 +72,34 @@ public class UserServiceImple implements UserService{
     //이메일 중복 검사
     @Override
     public Boolean checkEmail(String email) {
-        if(userRepository.existsByEmail(email)) {
+        if (userRepository.existsByEmail(email)) {
             log.warn("Email already exists {}", email);
             return false;//이메일 중복
-        }
-        else return true; // 이메일 없음
+        } else return true; // 이메일 없음
     }
 
     @Override
     public Boolean checkNickName(String nickName) {
-        if(userRepository.existsByNickname(nickName)) {
+        if (userRepository.existsByNickname(nickName)) {
             log.warn("nickname already exists {}", nickName);
             return false;
-        }
-        else return true;
+        } else return true;
     }
 
-    public UserEntity updateUser(UserDTO userDto, PasswordEncoder passwordEncoder) {
+    public UserEntity updateUser(String chngNickname, String chngPassword, PasswordEncoder passwordEncoder) {
         try {
-            UserEntity user = userRepository.findByEmail(userDto.getEmail());
-                if (userDto.getNickname() != null)
-                    user.setNickname(userDto.getNickname());
-                if(userDto.getPassword() != null)
-                    user.setPassword(passwordEncoder.encode(userDto.getPassword()));
+            UserEntity user = userRepository.findAllById(SecurityUtil.getCurrentMemberId());
 
-            return userRepository.save(user);
+            if (user != null) {
+                if (chngNickname != null)
+                    user.setNickname(chngNickname);
+                if (chngPassword != null)
+                    user.setPassword(passwordEncoder.encode(chngPassword));
+
+                return userRepository.save(user);
+            } else {
+                throw new RuntimeException("can not find user info");
+            }
         } catch (Exception e) {
             log.error("error: ", e);
         }
@@ -106,15 +107,11 @@ public class UserServiceImple implements UserService{
     }
 
     @Transactional
-    public void deleteUser(String userEmail) {
-        if (userEmail == null) {
-            throw new RuntimeException("not exist user info");
-        } else {
-            try {
-                userRepository.deleteByEmail(userEmail);
-            } catch (Exception e) {
-                log.error("error: ", e);
-            }
+    public void deleteUser() {
+        try {
+            userRepository.deleteById(SecurityUtil.getCurrentMemberId());
+        } catch (Exception e) {
+            log.error("error: ", e);
         }
     }
 
