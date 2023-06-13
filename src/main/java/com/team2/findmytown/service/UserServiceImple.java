@@ -2,7 +2,11 @@ package com.team2.findmytown.service;
 
 
 import com.team2.findmytown.config.SecurityUtil;
+import com.team2.findmytown.domain.entity.BookmarkEntity;
+import com.team2.findmytown.domain.entity.DistrictEntity;
 import com.team2.findmytown.domain.entity.UserEntity;
+import com.team2.findmytown.domain.repository.BookmarkRepository;
+import com.team2.findmytown.domain.repository.DistrictRepository;
 import com.team2.findmytown.domain.repository.UserRepository;
 import com.team2.findmytown.dto.request.UserDTO;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.awt.print.Book;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +35,10 @@ import java.util.Random;
 public class UserServiceImple implements UserService{
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private DistrictRepository districtRepository;
+    @Autowired
+    private BookmarkRepository bookmarkRepository;
     private JavaMailSender mailSender;
 
     @Override
@@ -237,6 +246,24 @@ public class UserServiceImple implements UserService{
                     .build();
         }
     }
+
+    public BookmarkEntity bookmarkDistrict(String districtName){
+        Optional<UserEntity> user = userRepository.findById(SecurityUtil.getCurrentMemberId());
+        DistrictEntity district = districtRepository.findByDistrictName(districtName);
+
+        if (user.isPresent() && district != null) {
+            BookmarkEntity bookmark = BookmarkEntity.builder()
+                    .user(user.get())
+                    .district(district).build();
+            bookmarkRepository.save(bookmark);
+
+            return bookmark;
+
+        } else{
+            throw new RuntimeException("Invalid info");
+        }
+    }
+
 }
 
 

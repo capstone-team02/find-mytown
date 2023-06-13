@@ -3,8 +3,11 @@ package com.team2.findmytown.domain.entity;
 
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Entity
@@ -27,13 +30,15 @@ public class BookmarkEntity {
     private UserEntity user;
 
     @OneToOne
-    @JoinColumn(name="district_name")
-    private DistrictEntity districtName;
+    @JoinColumn(name="district_id")
+    private DistrictEntity district;
 
+    @CreatedDate
+    private LocalDate date;
 
     @Builder
-    public BookmarkEntity(UserEntity user, DistrictEntity districtName){
+    public BookmarkEntity(UserEntity user, DistrictEntity district){
         this.user = user;
-        this.districtName = districtName;
+        this.district = district;
     }
 }

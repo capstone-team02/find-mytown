@@ -1,7 +1,5 @@
 package com.team2.findmytown.controller;
 
-
-import com.team2.findmytown.domain.entity.ChatHistoryEntity;
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.dto.request.MailDTO;
 import com.team2.findmytown.dto.request.UserDTO;
@@ -79,9 +77,23 @@ public class MyPageController {
         return ResponseEntity.ok().body(mypageService.importChatHistoryList(email.get("userEmail")));
     }
 
+
     @PostMapping("/mySurvey")
     public ResponseEntity mySurvey(@RequestBody Map<String, String> email){
         return ResponseEntity.ok().body(mypageService.importMySurvey(email.get("email")));
+    }
+
+
+
+    @RequestMapping("/bookmark")
+    public ResponseEntity myBookmark(HttpServletRequest request){
+        return ResponseEntity.ok().body(mypageService.importMyBookmark());
+    }
+
+    @RequestMapping("/bookmark/delete")
+    public ResponseEntity myBookmarkDelete(@RequestBody Map<String, String> districtName){
+        mypageService.deleteMyBookmark(districtName.get("district"));
+        return ResponseEntity.ok().body("delete success");
     }
 
 
