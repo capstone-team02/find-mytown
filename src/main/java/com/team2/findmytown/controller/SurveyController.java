@@ -1,7 +1,7 @@
 package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
-import com.team2.findmytown.domain.repository.GuRepository;
+import com.team2.findmytown.domain.repository.*;
 import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.service.ChatGPTService;
@@ -12,8 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -115,7 +113,7 @@ public class SurveyController {
                     .star(registerSurvey.getStar())
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
-                    .gptReview(registerSurvey.getGptReview())
+                    //.gptReview(registerSurvey.getGptReview())
                     .totalReview(registerSurvey.getTotalReview())
                     .build();
 

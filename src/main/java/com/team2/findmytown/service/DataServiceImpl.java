@@ -23,9 +23,6 @@ public class DataServiceImpl implements DataService {
     private final RealEstateRepository realEstateRepository;
     private final MedicalRepository medicalRepository;
 
-   @Autowired
-      public DataServiceImpl(GuRepository guRepository, RealEstateRepository realEstateRepository,DistrictRepository districtRepository, PopulationRepository populationRepository, FacilityRepository facilityRepository, MedicalRepository medicalRepository) {
-    private final RealEstateRepository realEstateRepository;
 
    @Autowired
     public DataServiceImpl(GuRepository guRepository, DistrictRepository districtRepository, PopulationRepository populationRepository,

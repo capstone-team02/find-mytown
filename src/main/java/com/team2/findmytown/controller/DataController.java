@@ -227,7 +227,7 @@ public class DataController {
     }
     @GetMapping("/realEstate")
     public ResponseEntity<?> addRealEstate(){
-      realEastateService.trade();
+      realEstateService.trade();
       return ResponseEntity.ok(HttpStatus.OK);
     }
 

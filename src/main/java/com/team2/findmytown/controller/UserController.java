@@ -50,7 +50,6 @@ public class UserController {
         Boolean check = userService.checkNickName(nickname);
         if(!check){return ResponseEntity.ok(HttpStatus.OK);}
         return ResponseEntity.ok(HttpStatus.UNAUTHORIZED);
-        return ResponseEntity.ok(check);
     }
 
 
@@ -72,7 +71,6 @@ public class UserController {
                     .username(userDTO.getUsername())
                     .role(userRole)
                     .nickname(userService.randomNickname())
-                    .nickname(userDTO.getNickname())
                     .password(passwordEncoder.encode(userDTO.getPassword()))
                     .build();
 
