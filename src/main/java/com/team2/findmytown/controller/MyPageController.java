@@ -33,7 +33,7 @@ public class MyPageController {
     @Autowired
     private MypageServiceImpl mypageService;
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-    
+
     @PutMapping("/userUpdate")
     public ResponseEntity userUpdate(@RequestBody Map<String, String> change){
 
@@ -72,15 +72,15 @@ public class MyPageController {
         }
     }
 
-    @PostMapping("/chatHistory")
-    public ResponseEntity chatHistory(@RequestBody Map<String, String> email){
-        return ResponseEntity.ok().body(mypageService.importChatHistoryList(email.get("userEmail")));
+    @GetMapping("/chatHistory")
+    public ResponseEntity chatHistory(){
+        return ResponseEntity.ok().body(mypageService.importChatHistoryList());
     }
 
 
-    @PostMapping("/mySurvey")
-    public ResponseEntity mySurvey(@RequestBody Map<String, String> email){
-        return ResponseEntity.ok().body(mypageService.importMySurvey(email.get("email")));
+    @GetMapping("/mySurvey")
+    public ResponseEntity mySurvey(){
+        return ResponseEntity.ok().body(mypageService.importMySurvey());
     }
 
 

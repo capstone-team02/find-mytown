@@ -29,16 +29,16 @@ public class MypageServiceImpl implements MypageService{
     @Autowired
     private DistrictRepository districtRepository;
 
-    public List<ChatHistoryDTO> importChatHistoryList(String userEmail) {
+    public List<ChatHistoryDTO> importChatHistoryList() {
 
         List<ChatHistoryEntity> chatHistories;
         List<ChatHistoryDTO> chatHistoryList = new ArrayList<>();
 
-        UserEntity user = userRepository.findByEmail(userEmail);
+        UserEntity user = userRepository.findAllById(SecurityUtil.getCurrentMemberId());
         ChatHistoryDTO chatHistoryDTO;
 
-        if(userEmail.isEmpty()){
-            throw new RuntimeException("Login User Info is Null");
+        if(user == null){
+            throw new RuntimeException("Can't find Login User");
         }else{
             chatHistories = chatHistoryRepository.findAllByUser(user);
 
@@ -53,10 +53,11 @@ public class MypageServiceImpl implements MypageService{
         }
     }
 
-    public Map<String, String> importMySurvey(String email){
+    public Map<String, String> importMySurvey(){
 
         Map<String, String> mySurvey = new HashMap<>();
-        SurveyEntity surveyEntity = surveyRepository.findAllByUserEmail(email);
+        UserEntity userEntity = userRepository.findAllById(SecurityUtil.getCurrentMemberId());
+        SurveyEntity surveyEntity = surveyRepository.findAllByUserEmail(userEntity.getEmail());
 
         mySurvey.put("star", surveyEntity.getStar());
         mySurvey.put("review", surveyEntity.getReview());
