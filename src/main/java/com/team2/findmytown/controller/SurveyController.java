@@ -2,6 +2,9 @@ package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.domain.repository.GuRepository;
+import com.team2.findmytown.domain.repository.SurveyAdvantageRepository;
+import com.team2.findmytown.domain.repository.SurveyDisadvantageRepository;
+import com.team2.findmytown.domain.repository.SurveyMoodRepository;
 import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.service.ChatGPTService;
@@ -12,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -23,6 +25,11 @@ public class SurveyController {
     @Autowired
     private ChatGPTService chatGPTService;
 
+    private final SurveyAdvantageRepository surveyAdvantageRepository;
+    private final SurveyDisadvantageRepository surveyDisadvantageRepository;
+    private final SurveyMoodRepository surveyMoodRepository;
+
+
     @Autowired
     private SurveyServiceImpl surveyService;
 
@@ -32,7 +39,11 @@ public class SurveyController {
     private final GuRepository guRepository;
 
 
-    public SurveyController(GuRepository guRepository) {
+    public SurveyController(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository, SurveyServiceImpl surveyService, GuRepository guRepository) {
+        this.surveyAdvantageRepository = surveyAdvantageRepository;
+        this.surveyDisadvantageRepository = surveyDisadvantageRepository;
+        this.surveyMoodRepository = surveyMoodRepository;
+        this.surveyService = surveyService;
         this.guRepository = guRepository;
     }
 
@@ -112,5 +123,24 @@ public class SurveyController {
     public ResponseEntity<List<String>> getGuNames(){
 
         return ResponseEntity.ok(surveyService.findGuNames());
+    }
+
+
+    @GetMapping("/moodEntities")
+    public ResponseEntity<?> getMoods() {
+        log.info("mood called");
+        return ResponseEntity.ok(surveyMoodRepository.findAll());
+    }
+
+    @GetMapping("/disadvantageEntities")
+    public ResponseEntity<?> getDisadvantages() {
+        log.info("disadvantage called");
+        return ResponseEntity.ok(surveyDisadvantageRepository.findAll());
+    }
+
+    @GetMapping("/advantageEntities")
+    public ResponseEntity<?> getAdvantages() {
+        log.info("advantage called");
+        return ResponseEntity.ok(surveyAdvantageRepository.findAll());
     }
 }
