@@ -72,7 +72,7 @@ public class DataServiceImpl implements DataService {
                 Node nNode = nodeList.item(i);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nNode;
-                    if (!buildingName.contains(getTagValue("BLDG_NM", element))) {
+
                         GuAndDistrictEntity guAndDistrictEntity = GuAndDistrictEntity.builder()
                                 .gu_name(getTagValue("SGG_NM", element))
                                 .district_name(getTagValue("BJDONG_NM", element))
@@ -81,7 +81,6 @@ public class DataServiceImpl implements DataService {
 
                         guAndDistrictEntities.add(guAndDistrictEntity);
 
-                    }
                 }
             }
 

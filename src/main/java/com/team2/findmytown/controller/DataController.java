@@ -238,6 +238,6 @@ public class DataController {
         return ResponseEntity.ok(HttpStatus.OK);
     }
 
-        scoreService.calculateAndSaveScores();
+        //scoreService.calculateAndSaveScores();
 
 }
