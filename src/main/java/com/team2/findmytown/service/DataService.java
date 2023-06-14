@@ -2,6 +2,7 @@ package com.team2.findmytown.service;
 
 import com.team2.findmytown.domain.entity.*;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface DataService {
@@ -13,6 +14,6 @@ public interface DataService {
 
     public List<PopulationEntity>createPopulation(final PopulationEntity populationEntity);
 
-    public void guAndDistrict();
+    public void guAndDistrict() throws IOException;
 
 }

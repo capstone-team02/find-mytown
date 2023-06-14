@@ -55,7 +55,7 @@ public class DataController {
     }
 
     @GetMapping("/loadDistrict")
-    public ResponseEntity<?> loadDistrict(){
+    public ResponseEntity<?> loadDistrict()throws IOException{
         dataService.guAndDistrict();
         return ResponseEntity.ok(HttpStatus.OK);
     }

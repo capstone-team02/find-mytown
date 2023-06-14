@@ -14,8 +14,11 @@ import org.w3c.dom.NodeList;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 @Slf4j
@@ -49,33 +52,37 @@ public class DataServiceImpl implements DataService {
     }
 
 
-    public void guAndDistrict() {
+    public void guAndDistrict() throws IOException {
         try {
             List<GuAndDistrictEntity> guAndDistrictEntities = new ArrayList<>();
-            List<String> buildingName = new ArrayList<>();
-            String url = " http://openapi.seoul.go.kr:8088/4b614a6876776c6434326f6544426b/xml/districtEmd/1/424/";
-            http:
-//openapi.seoul.go.kr:8088/4b614a6876776c6434326f6544426b/xml/districtEmd/1/5/
-            System.out.println(url);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(url);
 
-            doc.getDocumentElement().normalize();
-            System.out.println(doc.getDocumentElement());
-            System.out.println("Root element :  " + doc.getDocumentElement().getNodeName());
+
+
+            String url = "http://openapi.seoul.go.kr:8088/4b614a6876776c6434326f6544426b/xml/districtEmd/1/424/";
+
+
+
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            System.out.println(factory);
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            System.out.println(builder);
+            System.out.println(builder.parse(url));
+// xml 파일을 document로 파싱하기
+            Document doc = builder.parse(url);
+
+            System.out.println(doc.getDocumentElement().getNodeName());
+            System.out.println(doc.getElementsByTagName("districtEmd"));
 
             NodeList nodeList = doc.getElementsByTagName("row");
-
-
             for (int i = 0; i < nodeList.getLength(); i++) {
                 Node nNode = nodeList.item(i);
+                System.out.println(nNode);
                 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
                     Element element = (Element) nNode;
 
                         GuAndDistrictEntity guAndDistrictEntity = GuAndDistrictEntity.builder()
-                                .gu_name(getTagValue("SGG_NM", element))
-                                .district_name(getTagValue("BJDONG_NM", element))
+                                .gu_name(getTagValue("ATDRC_NM", element))
+                                .district_name(getTagValue("ADMDONG_NM", element))
                                 .build();
 
 
@@ -92,6 +99,7 @@ public class DataServiceImpl implements DataService {
 
     }
 
+    
 
     //구 데이터 저장
     @Override
@@ -124,6 +132,7 @@ public class DataServiceImpl implements DataService {
         return districtRepository.findAllByDistrictName(districtEntity.getDistrictName());
 
     }
+
 
     @Override
     public DistrictEntity findDistractEntity(GuEntity guEntity,String dongName) {

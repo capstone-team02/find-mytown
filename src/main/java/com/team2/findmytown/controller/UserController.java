@@ -161,7 +161,7 @@ public class UserController {
                     .build();
             return ResponseEntity.badRequest().body(responseDTO);
         } else{
-            UserEntity user = userService.updateUser(userDTO, passwordEncoder);
+            UserEntity user = userService.updateUser(userDTO.getNickname(), userDTO.getPassword(), passwordEncoder);
             return ResponseEntity.ok().body(user);
         }
     }
@@ -177,7 +177,7 @@ public class UserController {
                     .build();
             return ResponseEntity.badRequest().body(responseDTO);
         }else{
-            userService.deleteUser(userDTO.getEmail());
+            userService.deleteUser();
             return ResponseEntity.ok().body(userDTO);
         }
     }
