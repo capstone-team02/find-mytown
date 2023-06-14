@@ -28,6 +28,14 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	annotationProcessor 'org.projectlombok:lombok'
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+	implementation 'org.springframework.session:spring-session-jdbc'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	//implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-mysql'
+
+	implementation 'org.jsoup:jsoup:1.14.2'
 
 
 	implementation 'org.springframework.boot:spring-boot-devtools'
@@ -40,6 +48,13 @@ dependencies {
 	implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.1'
 	implementation 'org.apache.commons:commons-lang3:3.12.0'
 	runtimeOnly 'mysql:mysql-connector-java:8.0.23'
+	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+// https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp-starter-sql-mysql
+	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-mysql', version: '1.2.8.RELEASE'
+
+	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
+
 
 }
 

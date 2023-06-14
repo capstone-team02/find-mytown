@@ -1,12 +1,11 @@
 package com.team2.findmytown.controller;
 
-
 import com.team2.findmytown.domain.entity.Role;
 import com.team2.findmytown.domain.entity.UserEntity;
 import com.team2.findmytown.dto.request.UserDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.security.TokenProvider;
-import com.team2.findmytown.service.UserServiceImple;
+import com.team2.findmytown.service.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,36 +13,36 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Slf4j
 @RestController
 @RequestMapping("/mytown/v1/auth")
 public class UserController {
     @Autowired
     private UserServiceImple userService;
-
     @Autowired
     private TokenProvider tokenProvider;
-
     private PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-
-    @GetMapping("/checkEmail") //중복체크
-    public ResponseEntity<?>checkEmail(@RequestBody UserDTO userDTO){
-        Boolean check = userService.checkEmail(userDTO.getEmail());
+    @PostMapping("/checkEmail") //중복체크
+    public ResponseEntity<?>checkEmail(@RequestBody String email){
+        Boolean check = userService.checkEmail(email);
         return ResponseEntity.ok(check);
     }
 
-    @GetMapping("/checkNickname")
-    public ResponseEntity<?>checkNickname(@RequestBody UserDTO userDTO){
-        Boolean check = userService.checkNickName(userDTO.getNickname());
+    @PostMapping("/checkNickname")
+    public ResponseEntity<?>checkNickname(@RequestBody String nickname){
+        Boolean check = userService.checkNickName(nickname);
         return ResponseEntity.ok(check);
     }
+
 
     @PostMapping("/signup")
     public ResponseEntity<?> register(@RequestBody UserDTO userDTO){
         try{
             if(userDTO == null || userDTO.getPassword()==null){
-                throw new RuntimeException("Invelid Password value");
+                throw new RuntimeException("Invalid Password value");
             }
 
             Role userRole;
@@ -72,6 +71,8 @@ public class UserController {
                     .username(registerUser.getUsername())
                     .build();
             //return ResponseEntity.ok().body(responseUserDTO);
+
+
             return ResponseEntity.ok(responseUserDTO);
         }catch (Exception e){
             //유저 정보는 항상 하나이므로 리스트가 아닌 그냥 UserDto 리턴
@@ -79,6 +80,8 @@ public class UserController {
             return ResponseEntity.badRequest().body(responseDTO);
         }
     }
+
+
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticate(@RequestBody UserDTO userDTO){
@@ -127,42 +130,9 @@ public class UserController {
         }
     }
 
-    @PutMapping("/userUpdate")
-    public ResponseEntity userUpdate(@RequestBody UserDTO userDTO){
-        ResponseDTO responseDTO;
-
-
-        //토큰 유효성 검사 후 처리
-        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
-            responseDTO = ResponseDTO.builder()
-                    .error("Invalid token")
-                    .build();
-            return ResponseEntity.badRequest().body(responseDTO);
-        } else if (userDTO.getPassword() == null && userDTO.getNickname() == null) {
-            responseDTO = ResponseDTO.builder()
-                    .error("fill the info want to change")
-                    .build();
-            return ResponseEntity.badRequest().body(responseDTO);
-        } else{
-            UserEntity user = userService.updateUser(userDTO, passwordEncoder);
-            return ResponseEntity.ok().body(user);
-        }
+    @GetMapping("/loginUserInfo")
+    public ResponseEntity<UserDTO> userInfo(HttpServletRequest request){ //@RequestHeader("Authorization") String token
+        log.info(request.getHeader("Authorization"));
+        return ResponseEntity.ok(userService.isLogin());
     }
-
-    @PutMapping("/userDelete")
-    public ResponseEntity userDelete(@RequestBody UserDTO userDTO) {
-        ResponseDTO responseDTO;
-
-        //토큰 유효성 검사 후 처리
-        if (tokenProvider.validateAndGetUserId(userDTO.getToken()) == null) {
-            responseDTO = ResponseDTO.builder()
-                    .error("Invalid token")
-                    .build();
-            return ResponseEntity.badRequest().body(responseDTO);
-        }else{
-            userService.deleteUser(userDTO.getEmail());
-            return ResponseEntity.ok().body(userDTO);
-        }
-    }
-
 }

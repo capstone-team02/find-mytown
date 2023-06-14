@@ -1,9 +1,12 @@
 package com.team2.findmytown.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @Builder
@@ -28,11 +31,11 @@ public class DistrictEntity {
     private ScoreEntity scoreEntity;
 
     //인구 분포
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="population_id")
     private PopulationEntity populationEntity;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name="facility_id")
     private FacilityEntity facilityEntity;
 
@@ -47,12 +50,12 @@ public class DistrictEntity {
 
 
 
-    /*
+
+
     //동: 설문조사 = 1: 다 관계
     @JsonManagedReference
     @OneToMany(mappedBy ="districtEntity",fetch = FetchType.EAGER)
-    @ToString.Exclude
+    @ToString.Exclude @Builder.Default
     private List<SurveyEntity> surveyEntities = new ArrayList<>();
-     */
 
 }
