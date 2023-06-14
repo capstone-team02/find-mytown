@@ -114,8 +114,13 @@ public class DataServiceImpl implements DataService {
     //동 데이터 저장
     @Override
     public List<DistrictEntity> createDistrict(DistrictEntity districtEntity) {
-        populationRepository.save(districtEntity.getPopulationEntity());
-        districtRepository.save(districtEntity);
+       PopulationEntity populationEntity = districtEntity.getPopulationEntity();
+        populationRepository.save(populationEntity);
+       DistrictEntity savedDistrict =  districtRepository.save(districtEntity);
+       populationEntity.setDistrictEntity(savedDistrict);
+
+        populationRepository.save(populationEntity);
+
         log.info("Entity Code : {} is saved",districtEntity.getDistrictId());
         return districtRepository.findAllByDistrictName(districtEntity.getDistrictName());
 
