@@ -44,6 +44,12 @@ public class DataController {
         this.populationDensityService = populationDensityService;
     }
 
+    @GetMapping("/loadDistrict")
+    public ResponseEntity<?> loadDistrict(){
+        dataService.guAndDistrict();
+        return ResponseEntity.ok(HttpStatus.OK);
+    }
+
 
     @GetMapping("/add-table")
     public ResponseEntity<?> addDistrict() throws IOException {
