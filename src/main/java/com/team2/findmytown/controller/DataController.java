@@ -9,6 +9,8 @@ import com.team2.findmytown.domain.entity.*;
 
 import com.team2.findmytown.domain.entity.*;
 import com.team2.findmytown.service.DataServiceImpl;
+
+import com.team2.findmytown.service.ScoreServiceImpl;
 import com.team2.findmytown.service.PopulationDensityService;
 import com.team2.findmytown.service.RealEstateService;
 
@@ -36,15 +38,26 @@ public class DataController {
 
     private final DataServiceImpl dataService;
 
+    private final ScoreServiceImpl scoreService;
+    @Autowired
+
     private final RealEstateService realEstateService;
 
     private final PopulationDensityService populationDensityService;
 
     @Autowired
-    public DataController(DataServiceImpl dataService, RealEstateService realEstateService, PopulationDensityService populationDensityService){
+    public DataController(DataServiceImpl dataService, RealEstateService realEstateService, PopulationDensityService populationDensityService,ScoreServiceImpl scoreService){
         this.dataService = dataService;
         this.realEstateService = realEstateService;
         this.populationDensityService = populationDensityService;
+        this.scoreService=scoreService;
+
+    }
+
+    @GetMapping("/loadDistrict")
+    public ResponseEntity<?> loadDistrict(){
+        dataService.guAndDistrict();
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
 
@@ -119,8 +132,9 @@ public class DataController {
                     .fourty(Long.parseLong(data[6]))
                     .fifSix(Long.parseLong(data[7]))
                     .elder(Long.parseLong(data[8]))
-                    .forign(Long.parseLong(data[9]))
+                    .foriegn(Long.parseLong(data[9]))
                     .density(Long.parseLong(data[10]))
+                    .districtEntity(null)
                     .build();
 
             DistrictEntity districtEntity = DistrictEntity.builder()
@@ -129,6 +143,8 @@ public class DataController {
                     .facilityEntity(null)
                     .populationEntity(populationEntity)
                     .build();
+
+
 
 
             List<DistrictEntity> districtEntities = dataService.createDistrict(districtEntity);
@@ -169,6 +185,7 @@ public class DataController {
                         .education(Integer.parseInt(data2[5]))
                         .culture(Integer.parseInt(data2[6]))
                         .shoppingCenter(Integer.parseInt(data2[7]))
+                        .districtEntity(districtEntity)
                         .build();
 
                 dataService.updateFacilityDistractEntity(districtEntity,facilityEntity);
@@ -231,5 +248,6 @@ public class DataController {
       return ResponseEntity.ok(HttpStatus.OK);
     }
 
+        //scoreService.calculateAndSaveScores();
 
 }

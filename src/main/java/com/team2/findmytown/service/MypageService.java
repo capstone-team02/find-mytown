@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface MypageService {
-    public List<ChatHistoryDTO> importChatHistoryList(String userEmail);
-
-    public Map<String, String> importMySurvey(String userEmail);
+    public List<ChatHistoryDTO> importChatHistoryList();
+    public Map<String, String> importMySurvey();
 }

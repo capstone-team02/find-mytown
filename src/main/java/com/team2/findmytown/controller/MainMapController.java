@@ -3,6 +3,7 @@ package com.team2.findmytown.controller;
 import com.team2.findmytown.dto.request.MapDistrictDTO;
 import com.team2.findmytown.service.DataServiceImpl;
 import com.team2.findmytown.service.SurveyServiceImpl;
+import com.team2.findmytown.service.UserServiceImple;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -17,7 +18,8 @@ public class MainMapController {
 
     @Autowired
     private SurveyServiceImpl surveyService;
-
+    @Autowired
+    private UserServiceImple userService;
     @Autowired
     private DataServiceImpl dataService;
 
@@ -35,5 +37,10 @@ public class MainMapController {
     public ResponseEntity<?> importRealEstate (@RequestBody MapDistrictDTO districtName){
         System.out.println("param : "  + districtName);
         return ResponseEntity.ok(dataService.getRealEstateList(districtName.getDistrict()));
+    }
+
+    @PostMapping("/bookmark")
+    public ResponseEntity<?> scrapDistrict (@RequestBody Map<String, String> districtName){
+        return ResponseEntity.ok(userService.bookmarkDistrict(districtName.get("district")));
     }
 }

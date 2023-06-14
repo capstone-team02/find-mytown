@@ -13,4 +13,6 @@ public interface DataService {
 
     public List<PopulationEntity>createPopulation(final PopulationEntity populationEntity);
 
+    public void guAndDistrict();
+
 }

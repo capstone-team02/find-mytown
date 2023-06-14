@@ -1,6 +1,8 @@
 package com.team2.findmytown.service;
 
+import com.team2.findmytown.domain.entity.GuAndDistrictEntity;
 import com.team2.findmytown.domain.entity.RealEstateEntity;
+import com.team2.findmytown.domain.repository.GuAndDistrictRepository;
 import com.team2.findmytown.domain.repository.RealEstateRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,9 +20,11 @@ import java.util.List;
 @Slf4j
 public class RealEstateService {
     private final RealEstateRepository realEstateRepository;
+    private final GuAndDistrictRepository guAndDistrictRepository;
 
-    public RealEstateService(RealEstateRepository realEstateRepository) {
+    public RealEstateService(RealEstateRepository realEstateRepository, GuAndDistrictRepository guAndDistrictRepository) {
         this.realEstateRepository = realEstateRepository;
+        this.guAndDistrictRepository = guAndDistrictRepository;
     }
 
 
@@ -30,6 +34,8 @@ public class RealEstateService {
         if (nValue == null) return null;
         return nValue.getNodeValue();
     }
+
+
 
 
     public void trade() {

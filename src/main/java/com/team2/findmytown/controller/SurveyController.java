@@ -1,7 +1,10 @@
 package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
-import com.team2.findmytown.domain.repository.*;
+import com.team2.findmytown.domain.repository.GuRepository;
+import com.team2.findmytown.domain.repository.SurveyAdvantageRepository;
+import com.team2.findmytown.domain.repository.SurveyDisadvantageRepository;
+import com.team2.findmytown.domain.repository.SurveyMoodRepository;
 import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.service.ChatGPTService;
@@ -12,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -21,43 +25,35 @@ public class SurveyController {
     @Autowired
     private ChatGPTService chatGPTService;
 
+    private final SurveyAdvantageRepository surveyAdvantageRepository;
+    private final SurveyDisadvantageRepository surveyDisadvantageRepository;
+    private final SurveyMoodRepository surveyMoodRepository;
+
+
     @Autowired
     private SurveyServiceImpl surveyService;
 
     @Autowired
     private UserServiceImple userService;
 
-    private final UserRepository userRepository;
-    @Autowired
     private final GuRepository guRepository;
-    @Autowired
-    private final DistrictRepository districtRepository;
-    @Autowired
-    private final SurveyMoodRepository surveyMoodRepository;
-
-    private final SurveyAdvantageRepository surveyAdvantageRepository;
-
-    private final SurveyDisadvantageRepository surveyDisadvantageRepository;
 
 
-
-
-
-    public SurveyController(UserRepository userRepository, GuRepository guRepository, DistrictRepository districtRepository, SurveyMoodRepository surveyMoodRepository, SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository) {
-        this.userRepository = userRepository;
-        this.guRepository = guRepository;
-        this.districtRepository = districtRepository;
-        this.surveyMoodRepository = surveyMoodRepository;
+    public SurveyController(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository, SurveyServiceImpl surveyService, GuRepository guRepository) {
         this.surveyAdvantageRepository = surveyAdvantageRepository;
         this.surveyDisadvantageRepository = surveyDisadvantageRepository;
+        this.surveyMoodRepository = surveyMoodRepository;
+        this.surveyService = surveyService;
+        this.guRepository = guRepository;
     }
 
 
     @PostMapping("/surveyAnswer")
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
-            UserEntity userEntity = userRepository.findByEmail(surveyDTO.getUserEmail());
-            DistrictEntity districtEntity = districtRepository.findByDistrictName(surveyDTO.getDistrict());
+
+            UserEntity userEntity = surveyService.findUser(surveyDTO.getUserEmail());
+            DistrictEntity districtEntity = surveyService.findDistrict(surveyDTO.getDistrict());
             Role recommendRole;
 
             if (surveyDTO == null || surveyDTO.getUserEmail() == null) {
@@ -78,7 +74,6 @@ public class SurveyController {
 
             String gptMakeReview = chatGPTService.getGptMakeReview(surveyDTO);
             /*
-
             String additionalReview = surveyDTO.getReview() + " "
                     + surveyDTO.getRecommendAge() + " " + recommendRole.getTitle() + "이고, "
                     + surveyDTO.getRecommendHousing() + " 주거 형태를 찾는다면 추천합니다.";
@@ -113,7 +108,6 @@ public class SurveyController {
                     .star(registerSurvey.getStar())
                     .age(registerSurvey.getAge())
                     .review(registerSurvey.getReview())
-                    //.gptReview(registerSurvey.getGptReview())
                     .totalReview(registerSurvey.getTotalReview())
                     .build();
 
@@ -125,20 +119,10 @@ public class SurveyController {
         }
     }
 
-
     @GetMapping("/districtNames")
-    public ResponseEntity<?> getDongNames() {
-        log.info("DistrictNames called");
+    public ResponseEntity<List<String>> getGuNames(){
 
-
-        return ResponseEntity.ok(surveyService.getGuAndDistrict());
-    }
-
-
-    @GetMapping("/guNames")
-    public ResponseEntity<?> getGuNames() {
-        log.info("DistrictNames called");
-        return ResponseEntity.ok(surveyService.guNames().stream().sorted());
+        return ResponseEntity.ok(surveyService.findGuNames());
     }
 
 
@@ -159,6 +143,4 @@ public class SurveyController {
         log.info("advantage called");
         return ResponseEntity.ok(surveyAdvantageRepository.findAll());
     }
-
-
 }
