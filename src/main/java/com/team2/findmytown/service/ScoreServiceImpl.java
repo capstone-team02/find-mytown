@@ -45,14 +45,13 @@ public class ScoreServiceImpl implements ScoreService {
 
 
         //List<ScoreEntity> scoreEntities = new ArrayList<>();
-
-        for (PopulationEntity density : recordList) {
+        for (PopulationEntity populationEntity : recordList) {
             ScoreEntity scoreEntity = new ScoreEntity();
             scoreEntity.setDensityRank(populationRank++);
-            setPopulationRankValues(scoreEntity, density);
+            setPopulationRankValues(scoreEntity, populationEntity);
             scoreEntities.add(scoreEntity);
 
-            DistrictEntity districtEntity = density.getDistrictEntity();
+            DistrictEntity districtEntity = populationEntity.getDistrictEntity();
             districtEntity.setScoreEntity(scoreEntity);
 
             scoreRepository.save(scoreEntity); // 수정: scoreEntity 저장
@@ -62,23 +61,45 @@ public class ScoreServiceImpl implements ScoreService {
         scoreRepository.saveAll(scoreEntities);
         districtRepository.saveAll(recordList.stream().map(PopulationEntity::getDistrictEntity).collect(Collectors.toList()));
 
+
+
         for (FacilityEntity facility : facilityEntities) {
             DistrictEntity districtEntity = facility.getDistrictEntity();
             ScoreEntity findScoreEntity = districtEntity.getScoreEntity();
+            ScoreEntity newScoreEntity = ScoreEntity.builder()
+                    .scoreId(findScoreEntity.getScoreId())
+                    .districtEntity(findScoreEntity.getDistrictEntity())
+                    .teenRank(findScoreEntity.getTeenRank())
+                    .twentyRank(findScoreEntity.getTwentyRank())
+                    .thirtyRank(findScoreEntity.getThirtyRank())
+                    .fifSixRank(findScoreEntity.getFifSixRank())
+                    .fourtyRank(findScoreEntity.getFourtyRank())
+                    .elderRank(findScoreEntity.getElderRank())
+                    .densityRank(findScoreEntity.getDensityRank())
+                    .childrenRank(findScoreEntity.getChildrenRank())
+                    .foriegnRank(findScoreEntity.getForiegnRank())
 
+
+                    .build();
+/*
             if (findScoreEntity == null) {
                 findScoreEntity = new ScoreEntity();
                 districtEntity.setScoreEntity(findScoreEntity);
             }
 
-            findScoreEntity.setBankRank(facilityRank++);
+ */
+
+
+            newScoreEntity.setBankRank(facilityRank++);
             // 다른 랭크 값들도 설정해줘야 함
 
-             setFacilityRankValues(findScoreEntity,facility);
-            scoreRepository.save(findScoreEntity);
-            districtRepository.save(districtEntity);
+             setFacilityRankValues( newScoreEntity,facility);
+            scoreRepository.save( newScoreEntity);
+            districtRepository.save(newScoreEntity.getDistrictEntity());
         }
 
+        scoreRepository.saveAll(scoreEntities);
+        districtRepository.saveAll(recordList.stream().map(PopulationEntity::getDistrictEntity).collect(Collectors.toList()));
 
 
     }
