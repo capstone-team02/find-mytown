@@ -120,9 +120,9 @@ public class SurveyController {
     }
 
     @GetMapping("/districtNames")
-    public ResponseEntity<List<String>> getGuNames(){
+    public ResponseEntity<?> getGuNames(){
 
-        return ResponseEntity.ok(surveyService.findGuNames());
+        return ResponseEntity.ok(surveyService.getDistrictNameInfo());
     }
 
 

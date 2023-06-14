@@ -20,5 +20,7 @@ public interface SurveyService {
 
     public List<DistrictNameDTO> getGuAndDistrict();
 
+    public List<DistrictNameDTO> getDistrictNameInfo();
+
 
 }

@@ -34,10 +34,13 @@ public class SurveyServiceImpl implements SurveyService {
 
     private final SurveyMoodRepository surveyMoodRepository;
 
-    public SurveyServiceImpl(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository) {
+    private final GuAndDistrictRepository guAndDistrictRepository;
+
+    public SurveyServiceImpl(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository, GuAndDistrictRepository guAndDistrictRepository) {
         this.surveyAdvantageRepository = surveyAdvantageRepository;
         this.surveyDisadvantageRepository = surveyDisadvantageRepository;
         this.surveyMoodRepository = surveyMoodRepository;
+        this.guAndDistrictRepository = guAndDistrictRepository;
     }
 
     @Override
@@ -79,6 +82,43 @@ public class SurveyServiceImpl implements SurveyService {
         return guRepository.getByGuName(guName);
     }
 
+
+    public List<DistrictNameDTO> getDistrictNameInfo() {
+        List<GuAndDistrictEntity> guAndDistrictEntities = guAndDistrictRepository.findAll();
+        List<DistrictNameDTO> result = new ArrayList<>();
+        List<String> guName = new ArrayList<>();
+        List<String> dongName = new ArrayList();
+        Map<String, List<String>> districtNameMap = new HashMap<>();
+        DistrictNameDTO districtNameDTO = null;
+
+        for (int i = 0; i < guAndDistrictEntities.size(); i++) {
+            guName.add(guAndDistrictEntities.get(i).getGu_name());
+        }
+        System.out.println("k size " + guName.size());
+        for (int k = 0; k < guName.size(); k++) {
+            for (int j = 0; j < guAndDistrictEntities.size(); j++) {
+                if (guName.get(k).equals(guAndDistrictEntities.get(j).getGu_name())) {
+                    dongName.add(guAndDistrictEntities.get(j).getDistrict_name());
+                }
+            }
+            districtNameMap.put(guName.get(k), dongName);
+            if (k != 24) {
+                dongName = new ArrayList<>();
+            }
+
+
+        }
+        for (String s : districtNameMap.keySet()) {
+            districtNameDTO = DistrictNameDTO
+                    .builder()
+                    .guName(s)
+                    .dongName(districtNameMap.get(s))
+                    .build();
+            result.add(districtNameDTO);
+        }
+        return result;
+    }
+
     public List<DistrictNameDTO> getGuAndDistrict() {
         List<DistrictEntity> list = districtRepository.findAll();
         List<GuEntity> guIdList = guRepository.findAll();
@@ -118,10 +158,8 @@ public class SurveyServiceImpl implements SurveyService {
         }
 
 
-
         return result;
     }
-
 
 
     //
@@ -184,11 +222,11 @@ public class SurveyServiceImpl implements SurveyService {
         ;
         advantageList.stream().distinct().collect(Collectors.toList());
 
-       for(int i =0 ; i<2;i++){
-           keyword.add(surveyMoodRepository.findByMoodEn(moodList.stream().distinct().collect(Collectors.toList()).get(i)).getMoodKor());
-           keyword.add(surveyAdvantageRepository.findByAdvantageEn(advantageList.stream().distinct().collect(Collectors.toList()).get(i)).getAdvantageKor());
-           keyword.add(surveyDisadvantageRepository.findByDisadvantageEn(disadvantageList.stream().distinct().collect(Collectors.toList()).get(i)).getDisadvantageKor());
-       }
+        for (int i = 0; i < 2; i++) {
+            keyword.add(surveyMoodRepository.findByMoodEn(moodList.stream().distinct().collect(Collectors.toList()).get(i)).getMoodKor());
+            keyword.add(surveyAdvantageRepository.findByAdvantageEn(advantageList.stream().distinct().collect(Collectors.toList()).get(i)).getAdvantageKor());
+            keyword.add(surveyDisadvantageRepository.findByDisadvantageEn(disadvantageList.stream().distinct().collect(Collectors.toList()).get(i)).getDisadvantageKor());
+        }
 
 
         System.out.println("moodList " + moodList);
@@ -199,7 +237,7 @@ public class SurveyServiceImpl implements SurveyService {
         return keyword;
     }
 
-    public List<SurveyEntity> findSurveyByDistrict(String district){
+    public List<SurveyEntity> findSurveyByDistrict(String district) {
         DistrictEntity districtId = districtRepository.findByDistrictName(district);
         if (districtId == null) {
             throw new RuntimeException("Doesn't exist Review About Request District");
@@ -211,5 +249,5 @@ public class SurveyServiceImpl implements SurveyService {
         }
 
         return surveyEntities;
-        }
     }
+}
