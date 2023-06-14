@@ -26,6 +26,9 @@ public class DistrictEntity {
     private String districtName;
 
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "score_id")
+    private ScoreEntity scoreEntity;
 
     //인구 분포
     @OneToOne(fetch = FetchType.EAGER)
@@ -43,6 +46,10 @@ public class DistrictEntity {
     @JoinColumn(name="gu_id")
     @ToString.Exclude
     private GuEntity guEntity;
+
+
+
+
 
 
     //동: 설문조사 = 1: 다 관계
