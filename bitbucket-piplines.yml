@@ -1,0 +1,31 @@
+# develop 브랜치에 PUSH하면 Unit Test를 실행하고 App Engine에 배포 되는 설정
+image: node:alpine
+
+run-test: &run-test
+  step:
+    name: Run jest unit test
+    caches:
+      - node
+    script:
+      - yarn
+      - yarn test
+
+deploy-dev: &deploy-dev
+  step:
+    name: Deploy Develop Branch to App Engine
+    deployment: gcp-dev
+    script:
+      - pipe: atlassian/google-app-engine-deploy:0.7.3
+        variables:
+          KEY_FILE: casptone_design_231
+          PROJECT: find-mytown
+          STOP_PREVIOUS_VERSION: 'true'
+          DEBUG: 'true'
+
+pipelines:
+  branches:
+    master:
+      - <<: *run-test
+    develop:
+      - <<: *run-test
+      - <<: *deploy-dev
