@@ -1,10 +1,7 @@
 package com.team2.findmytown.controller;
 
 import com.team2.findmytown.domain.entity.*;
-import com.team2.findmytown.domain.repository.GuRepository;
-import com.team2.findmytown.domain.repository.SurveyAdvantageRepository;
-import com.team2.findmytown.domain.repository.SurveyDisadvantageRepository;
-import com.team2.findmytown.domain.repository.SurveyMoodRepository;
+import com.team2.findmytown.domain.repository.*;
 import com.team2.findmytown.dto.request.SurveyDTO;
 import com.team2.findmytown.dto.response.ResponseDTO;
 import com.team2.findmytown.service.ChatGPTService;
@@ -14,8 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -29,6 +24,8 @@ public class SurveyController {
     private final SurveyDisadvantageRepository surveyDisadvantageRepository;
     private final SurveyMoodRepository surveyMoodRepository;
 
+    private final UserRepository userRepository;
+    private final GuAndDistrictRepository guAndDistrictRepository;
 
     @Autowired
     private SurveyServiceImpl surveyService;
@@ -39,10 +36,12 @@ public class SurveyController {
     private final GuRepository guRepository;
 
 
-    public SurveyController(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository, SurveyServiceImpl surveyService, GuRepository guRepository) {
+    public SurveyController(SurveyAdvantageRepository surveyAdvantageRepository, SurveyDisadvantageRepository surveyDisadvantageRepository, SurveyMoodRepository surveyMoodRepository, UserRepository userRepository, GuAndDistrictRepository guAndDistrictRepository, SurveyServiceImpl surveyService, GuRepository guRepository) {
         this.surveyAdvantageRepository = surveyAdvantageRepository;
         this.surveyDisadvantageRepository = surveyDisadvantageRepository;
         this.surveyMoodRepository = surveyMoodRepository;
+        this.userRepository = userRepository;
+        this.guAndDistrictRepository = guAndDistrictRepository;
         this.surveyService = surveyService;
         this.guRepository = guRepository;
     }
@@ -52,17 +51,18 @@ public class SurveyController {
     public ResponseEntity<?> survey(@RequestBody SurveyDTO surveyDTO) {
         try {
 
-            UserEntity userEntity = surveyService.findUser(surveyDTO.getUserEmail());
-            DistrictEntity districtEntity = surveyService.findDistrict(surveyDTO.getDistrict());
+            UserEntity userEntity = userRepository.findByEmail(surveyDTO.getUserEmail());
+
+            GuAndDistrictEntity districtEntity = guAndDistrictRepository.findByDistrictName(surveyDTO.getDistrict());
             Role recommendRole;
 
             if (surveyDTO == null || surveyDTO.getUserEmail() == null) {
                 throw new RuntimeException("Survey Response Not Received");
-            } else if (userEntity == null) {
+            } else if (userRepository.findByEmail(surveyDTO.getUserEmail())==null) {
                 throw new RuntimeException("Can't find User info");
             }
 
-            if (districtEntity==null){
+            if (guAndDistrictRepository.findByDistrictName(surveyDTO.getDistrict())==null){
                 throw new RuntimeException("doesn't exist Area");
             }
 

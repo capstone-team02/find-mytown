@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SurveyDisadvantageRepository extends JpaRepository<SurveyDisadvantageEntity, Integer> {
-    SurveyDisadvantageEntity findByDisadvantageEn(String district_name);
+    SurveyDisadvantageEntity findByDisadvantageKor(String district_name);
 
 }

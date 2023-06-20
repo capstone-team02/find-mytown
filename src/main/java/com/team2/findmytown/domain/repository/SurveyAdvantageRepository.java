@@ -8,6 +8,6 @@ import java.util.List;
 
 @Repository
 public interface SurveyAdvantageRepository extends JpaRepository<SurveyAdvantageEntity, Integer> {
-    SurveyAdvantageEntity findByAdvantageEn(String district_name);
+    SurveyAdvantageEntity findByAdvantageKor(String district_name);
 
 }

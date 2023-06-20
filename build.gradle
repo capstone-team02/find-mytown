@@ -51,7 +51,7 @@ dependencies {
 	implementation 'io.github.flashvayne:chatgpt-spring-boot-starter:1.0.4'
 	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-gcp-starter-sql-mysql
-	implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-mysql', version: '1.2.8.RELEASE'
+	//implementation group: 'org.springframework.cloud', name: 'spring-cloud-gcp-starter-sql-mysql', version: '1.2.8.RELEASE'
 
 	implementation group: 'org.apache.poi', name: 'poi-ooxml', version: '4.1.2'
 

@@ -20,13 +20,13 @@ public class GuAndDistrictEntity {
     @GeneratedValue
     public Integer id;
 
-    public String gu_name;
-    public String district_name;
+    public String guName;
+    public String districtName;
 
     @Builder
-    public GuAndDistrictEntity(Integer id, String gu_name, String district_name){
+    public GuAndDistrictEntity(Integer id, String guName, String districtName){
         this.id = id;
-        this.gu_name = gu_name;
-        this.district_name = district_name;
+        this.guName = guName;
+        this.districtName = districtName;
     }
 }

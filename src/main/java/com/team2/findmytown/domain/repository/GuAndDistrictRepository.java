@@ -6,4 +6,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GuAndDistrictRepository extends JpaRepository<GuAndDistrictEntity, Integer> {
+    GuAndDistrictEntity findByDistrictName(String districtName);
+
+
+
 }

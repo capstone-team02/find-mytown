@@ -28,9 +28,9 @@ public class SurveyEntity {
 
     @JsonBackReference
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name="district_id")
+    @JoinColumn(name="district_name")
     @ToString.Exclude
-    private DistrictEntity districtEntity;
+    private GuAndDistrictEntity districtEntity;
 
     @Column(name="mood_id")
     @ElementCollection
@@ -67,7 +67,7 @@ public class SurveyEntity {
 
 
     @Builder
-    public SurveyEntity(UserEntity user, String userEmail, String age, DistrictEntity district, List<String> mood, List<String> advantage,
+    public SurveyEntity(UserEntity user, String userEmail, String age, GuAndDistrictEntity district, List<String> mood, List<String> advantage,
                         List<String> disadvantage, String star, String review, String totalReview){
         this.user = user;
         this.userEmail = userEmail;

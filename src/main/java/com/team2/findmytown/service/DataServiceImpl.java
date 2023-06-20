@@ -81,8 +81,8 @@ public class DataServiceImpl implements DataService {
                     Element element = (Element) nNode;
 
                         GuAndDistrictEntity guAndDistrictEntity = GuAndDistrictEntity.builder()
-                                .gu_name(getTagValue("ATDRC_NM", element))
-                                .district_name(getTagValue("ADMDONG_NM", element))
+                                .guName(getTagValue("ATDRC_NM", element))
+                                .districtName(getTagValue("ADMDONG_NM", element))
                                 .build();
 
 

@@ -6,5 +6,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface SurveyMoodRepository extends JpaRepository<SurveyMoodEntity, Integer> {
-    SurveyMoodEntity findByMoodEn(String district);
+    SurveyMoodEntity findByMoodKor(String district);
 }
